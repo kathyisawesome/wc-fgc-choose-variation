@@ -1,5 +1,4 @@
-# WooCommerce Free Gift Coupons
-## Allow customers to select options for variable products that are free gifts
+# WooCommerce Free Gift Coupons - Choose Variations
 
 ### What's This?
 
