@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WC Free Gift Coupons Update Variation Cart
+ * Plugin Name: WC Free Gift Coupons - Choose Variation
  * Description: Update variable product if added as a Free Gift.
  * Version: 1.0.0
  * Author: Kathy Darling
@@ -24,14 +24,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Main WC_FGC_Update_Variation_Cart Class
+ * Main WC_FGC_Choose_Variation Class
  *
- * @class WC_FGC_Update_Variation_Cart
+ * @class WC_FGC_Choose_Variation
  * @package Class
  * @author   Kevin
  * @version 1.0.0
  */
-class WC_FGC_Update_Variation_Cart {
+class WC_FGC_Choose_Variation {
 
 	/**
 	 * WC Update Variation Cart constructor
@@ -225,4 +225,4 @@ class WC_FGC_Update_Variation_Cart {
 
 }
 
-add_action( 'plugins_loaded', array( 'WC_FGC_Update_Variation_Cart', 'init' ), 20 );
+add_action( 'plugins_loaded', array( 'WC_FGC_Choose_Variation', 'init' ), 20 );
