@@ -173,13 +173,13 @@ class WC_FGC_Choose_Variation {
 	 */
 	public static function add_cart_item_data( $cart_item_data, $product_id, $variation_id ) {
 
-		$product = WC_Name_Your_Price_Helpers::maybe_get_product_instance( $product_id );
+		// Updating container in cart?
+		if ( isset( $_POST['update-gift'] ) ) {
 
-		// Is this an NYP item?
-		if ( $product->is_type( array( 'variable', 'variable-subscription' ) ) ) {
+			$product_type = WC_Product_Factory::get_product_type( $product_id );
 
-			// Updating container in cart?
-			if ( isset( $_POST['update-gift'] ) ) {
+			// Is this an NYP item?
+			if ( in_array( $product_type, array( 'variable', 'variable-subscription' ) ) ) {
 
 				$updating_cart_key = wc_clean( $_POST['update-gift'] );
 
