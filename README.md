@@ -18,8 +18,9 @@ There is nothing to configure. Activating the plugin automatically adds a link i
 
 ### Important
 
-1. This is provided as is and does not receive priority support.
-2. Please test thoroughly before using in production.
+1. Requires Free Gift Coupons 2.5.0
+2. This is provided as is and does not receive priority support.
+3. Please test thoroughly before using in production.
 
 
 
