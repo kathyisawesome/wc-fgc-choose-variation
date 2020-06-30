@@ -214,11 +214,15 @@ class WC_FGC_Choose_Variation {
 
 					$cart_item = WC()->cart->cart_contents[ $updating_cart_key ];
 
-					// Pass free_gift coupon code from existing product to new product.
+					// Pass free gift coupon code from existing product to new product.
 					if( isset( $cart_item['free_gift'] ) ) {
 						$cart_item_data['free_gift'] = $cart_item['free_gift'];
 					}
 
+					// Pass free gift quantity from existing product to new product.
+					if( isset( $cart_item['fgc_quantity'] ) ) {
+						$cart_item_data['fgc_quantity'] = $cart_item['fgc_quantity'];
+					}
 					// Remove.
 					WC()->cart->remove_cart_item( $updating_cart_key );
 
