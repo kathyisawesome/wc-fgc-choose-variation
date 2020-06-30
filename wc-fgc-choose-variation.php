@@ -76,7 +76,7 @@ class WC_FGC_Choose_Variation {
 	 */
 	public static function add_edit_link_in_cart( $content, $cart_item, $cart_item_key ) {
 
-		if ( ! empty( $cart_item['free_gift'] ) && empty( $cart_item['variation'] ) ) {
+		if ( ! empty( $cart_item['free_gift'] ) && ! empty( $cart_item['fgc_type'] ) && 'variable' === $cart_item['fgc_type'] ) {
 
 			if ( function_exists( 'is_cart' ) && is_cart() && ! self::is_cart_widget() ) {
 
