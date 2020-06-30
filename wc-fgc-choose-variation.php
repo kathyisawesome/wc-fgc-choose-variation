@@ -205,7 +205,7 @@ class WC_FGC_Choose_Variation {
 
 			$product_type = WC_Product_Factory::get_product_type( $product_id );
 
-			// Is this an NYP item?
+			// Is this a variable product?
 			if ( in_array( $product_type, array( 'variable', 'variable-subscription' ) ) ) {
 
 				$updating_cart_key = wc_clean( $_POST['update-gift'] );
