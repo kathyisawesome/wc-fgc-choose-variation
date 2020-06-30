@@ -47,6 +47,9 @@ class WC_FGC_Choose_Variation {
 		// Add edit link on the cart page.
 		add_action( 'woocommerce_cart_item_name', array( __CLASS__, 'add_edit_link_in_cart' ), 10, 3 );
 
+		// Hide quantity input when updating.
+		add_filter( 'woocommerce_quantity_input_args', array( __CLASS__, 'hide_quantity_input' ), 10, 2 );
+
 		// Change add to cart link.
 		add_filter( 'woocommerce_product_single_add_to_cart_text', array( __CLASS__, 'single_add_to_cart_text' ), 10, 2 );
 
@@ -97,6 +100,30 @@ class WC_FGC_Choose_Variation {
 		return $content;
 
 	}
+
+	/**
+	 * Hide the quantity input when updating.
+	 *
+	 * @param array $args
+	 * @param object $product
+	 * @return string
+	 * @since 2.0
+	 */
+	public static function hide_quantity_input( $args, $product ) {
+
+		if ( isset( $_GET['update-gift'] ) ) {
+			$updating_cart_key = wc_clean( $_GET['update-gift'] );
+
+			if ( isset( WC()->cart->cart_contents[ $updating_cart_key ] ) ) {
+				$args['min_value'] = WC()->cart->cart_contents[ $updating_cart_key ]['quantity'];
+				$args['max_value'] = WC()->cart->cart_contents[ $updating_cart_key ]['quantity'];
+			}
+		}
+
+		return $args;
+
+	}
+
 
 
 	/**
