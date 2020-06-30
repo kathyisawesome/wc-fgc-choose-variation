@@ -8,7 +8,7 @@
  * Requires at least: 5.0
  * Tested up to: 5.3.0
  * WC requires at least: 4.0
- * WC tested up to: 4.1
+ * WC tested up to: 4.2.0
  *
  * Text Domain: wc_fgc_update_variation
  * Domain Path: /languages/
