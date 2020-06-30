@@ -223,6 +223,12 @@ class WC_FGC_Choose_Variation {
 					if( isset( $cart_item['fgc_quantity'] ) ) {
 						$cart_item_data['fgc_quantity'] = $cart_item['fgc_quantity'];
 					}
+
+					// Pass free gift "type" from existing product to new product.
+					if( isset( $cart_item['fgc_type'] ) ) {
+						$cart_item_data['fgc_type'] = $cart_item['fgc_type'];
+					}
+
 					// Remove.
 					WC()->cart->remove_cart_item( $updating_cart_key );
 
