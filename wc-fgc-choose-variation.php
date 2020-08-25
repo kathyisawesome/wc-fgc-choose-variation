@@ -26,10 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main WC_FGC_Choose_Variation Class
  *
- * @class WC_FGC_Choose_Variation
  * @package Class
- * @author   Kevin
- * @version 1.0.0
  */
 class WC_FGC_Choose_Variation {
 
@@ -66,7 +63,7 @@ class WC_FGC_Choose_Variation {
 
 
 	/*-----------------------------------------------------------------------------------*/
-	/* Dislplay                                                                          */
+	/* Display                                                                          */
 	/*-----------------------------------------------------------------------------------*/
 
 	/**
@@ -110,7 +107,6 @@ class WC_FGC_Choose_Variation {
 	 * @param array $args
 	 * @param object $product
 	 * @return string
-	 * @since 2.0
 	 */
 	public static function hide_quantity_input( $args, $product ) {
 
@@ -135,7 +131,6 @@ class WC_FGC_Choose_Variation {
 	 * @param string $text
 	 * @param object $product
 	 * @return string
-	 * @since 2.0
 	 */
 	public static function single_add_to_cart_text( $text, $product ) {
 
@@ -185,7 +180,6 @@ class WC_FGC_Choose_Variation {
 	/**
 	 * Filter the displayed notice after redirecting to the cart when editing a price "in-cart".
 	 *
-	 * @since   3.0.0
 	 * @param  string $url
 	 * @return string
 	 */
@@ -199,7 +193,6 @@ class WC_FGC_Choose_Variation {
 	 * @param array $cart_item_data extra cart item data we want to pass into the item.
 	 * @param int   $product_id contains the id of the product to add to the cart.
 	 * @param int   $variation_id ID of the variation being added to the cart.
-	 * @since 1.0
 	 */
 	public static function add_cart_item_data( $cart_item_data, $product_id, $variation_id ) {
 
@@ -288,7 +281,6 @@ class WC_FGC_Choose_Variation {
 	/**
 	 * Rendering cart widget?
 	 *
-	 * @since  1.4.0
 	 * @return boolean
 	 */
 	public static function is_cart_widget() {
