@@ -48,7 +48,7 @@ class WC_FGC_Choose_Variation {
 		add_filter( 'woocommerce_quantity_input_args', array( __CLASS__, 'hide_quantity_input' ), 10, 2 );
 
 		// Change add to cart link.
-		add_filter( 'woocommerce_product_single_add_to_cart_text', array( __CLASS__, 'single_add_to_cart_text' ), 10, 2 );
+		add_filter( 'woocommerce_product_single_add_to_cart_text', array( __CLASS__, 'single_add_to_cart_text' ), 99, 2 );
 
 		// Add hidden input to add to cart form.
 		add_action( 'woocommerce_after_single_variation', array( __CLASS__, 'display_hidden_update_input' ) );	
