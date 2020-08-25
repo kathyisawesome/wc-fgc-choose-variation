@@ -86,7 +86,7 @@ class WC_FGC_Choose_Variation {
 					array(
 						'update-gift'  => $cart_item_key
 					),
-					$_product->get_permalink()
+					$_product->get_permalink( $cart_item )
 				);
 
 				$edit_in_cart_text = $cart_item['variation_id'] > 0 ? _x( 'Change options', 'edit in cart link text', 'wc_fgc_update_variation' ) : _x( 'Choose options', 'edit in cart link text', 'wc_fgc_update_variation' );
