@@ -89,7 +89,7 @@ class WC_FGC_Choose_Variation {
 					$_product->get_permalink()
 				);
 
-				$edit_in_cart_text = _x( 'Choose options', 'edit in cart link text', 'wc_fgc_update_variation' );
+				$edit_in_cart_text = $cart_item['variation_id'] > 0 ? _x( 'Change options', 'edit in cart link text', 'wc_fgc_update_variation' ) : _x( 'Choose options', 'edit in cart link text', 'wc_fgc_update_variation' );
 
 				// Translators: %1$s Original cart price string. %2$s URL for edit price link. %3$s text for edit price link.
 				$content = sprintf( __( '%1$s<br/><a class="edit_price_in_cart_text edit_in_cart_text" href="%2$s" style="text-decoration:none;"><small>%3$s<span class="dashicons dashicons-after dashicons-edit"></span></small></a>', 'edit in cart text', 'wc_fgc_update_variation' ), $content, esc_url( $edit_in_cart_link ), $edit_in_cart_text );
