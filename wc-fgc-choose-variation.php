@@ -59,6 +59,9 @@ class WC_FGC_Choose_Variation {
 		// Update cart.
 		add_filter( 'woocommerce_add_cart_item_data', array( __CLASS__, 'add_cart_item_data' ), 5, 3 );
 
+		// Show error message on the checkout page.
+		add_action( 'woocommerce_before_checkout_process', array( __CLASS__, 'validate_variation_selection' ) );
+
 	}
 
 
@@ -245,6 +248,38 @@ class WC_FGC_Choose_Variation {
 		return $cart_item_data;
 	}
 
+	/**
+	 * Check is valid product in the cart.
+	 *
+	 * @since 1.1.0
+	 */
+	public static function validate_variation_selection() {
+		$cart = WC()->cart->get_cart();
+
+		if ( ! empty( $cart ) ) {
+			
+			$needs_selection = false;
+			
+			foreach ( $cart as $cart_item_key => $cart_item ) {
+
+				if ( $cart_item['data']->is_type( 'variable' ) && isset( $cart_item['free_gift'] ) && 0 === $cart_item['variation_id'] ) {
+
+					$needs_selection = true;
+
+					$product_name = $cart_item['data']->get_name();
+					break;
+					
+				}
+			}
+
+			if ( $needs_selection ) {
+
+				$message = sprintf( __( 'We were unable to process your order, please try again by choosing attributes for "%s".', 'wc-fgc-choose-variation' ), $product_name );
+
+				throw new Exception( $message );
+			}
+		}
+	}
 
 	/*-----------------------------------------------------------------------------------*/
 	/* Helpers                                                                           */
