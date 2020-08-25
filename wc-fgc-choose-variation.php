@@ -30,6 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WC_FGC_Choose_Variation {
 
+	const VERSION = '1.1.0';
+
 	/**
 	 * WC Update Variation Cart constructor
 	 *
@@ -40,6 +42,9 @@ class WC_FGC_Choose_Variation {
 		if ( ! defined( 'WC_FGC_PLUGIN_NAME' ) ) {
 			return;
 		}
+
+		// Register scripts.
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 
 		// Add edit link on the cart page.
 		add_action( 'woocommerce_cart_item_name', array( __CLASS__, 'add_edit_link_in_cart' ), 10, 3 );
@@ -65,6 +70,14 @@ class WC_FGC_Choose_Variation {
 	/*-----------------------------------------------------------------------------------*/
 	/* Display                                                                          */
 	/*-----------------------------------------------------------------------------------*/
+
+	/**
+	 * Register scripts.
+	 */
+	public static function enqueue_scripts() {
+		wp_register_script( 'fgc-choose-variation', plugins_url( 'js/choose-variation.js', __FILE__ ), array( 'wc-add-to-cart' ), self::VERSION, true );
+	}
+
 
 	/**
 	 * Add edit link to cart items.
@@ -148,7 +161,7 @@ class WC_FGC_Choose_Variation {
 
 
 	/**
-	 * Add a hidden input to facilitate changing the variation from cart.
+	 * Add a hidden input to facilitate changing the variation from cart, and enqueue script.
 	 */
 	public static function display_hidden_update_input() {
 		if ( isset( $_GET['update-gift'] ) ) {
@@ -156,6 +169,9 @@ class WC_FGC_Choose_Variation {
 			if ( isset( WC()->cart->cart_contents[ $updating_cart_key ] ) ) {
 				echo '<input type="hidden" name="update-gift" value="' . esc_attr( $updating_cart_key ) . '" />';
 			}
+
+			wp_enqueue_script( 'fgc-choose-variation' );
+
 		}
 	}
 
@@ -229,7 +245,9 @@ class WC_FGC_Choose_Variation {
 					WC()->cart->remove_cart_item( $updating_cart_key );
 
 					// Redirect to cart.
-					add_filter( 'woocommerce_add_to_cart_redirect', array( __CLASS__, 'edit_in_cart_redirect' ) );
+					if ( ! wp_doing_ajax() ) {
+						add_filter( 'woocommerce_add_to_cart_redirect', array( __CLASS__, 'edit_in_cart_redirect' ) );
+					}
 
 					// Edit notice.
 					add_filter( 'wc_add_to_cart_message_html', array( __CLASS__, 'edit_in_cart_redirect_message' ) );
