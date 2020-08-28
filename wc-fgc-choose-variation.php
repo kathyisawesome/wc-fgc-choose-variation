@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WC Free Gift Coupons - Choose Variation
  * Description: Update variable product if added as a Free Gift.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Kathy Darling
  * Author URI: https://www.kathyisawesome.com
  * Requires at least: 5.0
