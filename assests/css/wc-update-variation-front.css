@@ -45,12 +45,20 @@
 
 .wc-fgc-edit-var-link{
   border: 1px solid;
-  padding: 5px;
+  padding: 5px 7px;
   border-radius: 100px;
   margin: 20px 0px;
   position: relative;
   top: 10px;
   text-decoration: none !important;
+  font-size: 18.5px;
+}
+
+.wc-fgc-edit-var-link .dashicons{
+  vertical-align: middle;
+  margin-left: 4px;
+  position: relative;
+  top: -3px;
 }
 
 .wc-fgc-cart-update:hover a {

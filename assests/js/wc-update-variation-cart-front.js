@@ -1,7 +1,43 @@
 jQuery(document).ready(function($){
-	
+
+	/**
+	 * Check if a node is blocked for processing.
+	 *
+	 * @param {JQuery Object} $node
+	 * @return {bool} True if the DOM Element is UI Blocked, false if not.
+	 */
+	var is_blocked = function( $node ) {
+		return $node.is( '.processing' ) || $node.parents( '.processing' ).length;
+	};
+
+	/**
+	 * Block a node visually for processing.
+	 *
+	 * @param {JQuery Object} $node
+	 */
+	var block = function( $node ) {
+		if ( ! is_blocked( $node ) ) {
+			$node.addClass( 'processing' ).block( {
+				message: null,
+				overlayCSS: {
+					background: '#fff',
+					opacity: 0.6
+				}
+			} );
+		}
+	};
+
+	/**
+	 * Unblock a node after processing is complete.
+	 *
+	 * @param {JQuery Object} $node
+	 */
+	var unblock = function( $node ) {
+		$node.removeClass( 'processing' ).unblock();
+	};
+
 	wc_fgc_image_change_on_variation_popup();
-	
+
 	var ajax_url = wc_fgc_params.ajax_url;
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
@@ -13,8 +49,7 @@ jQuery(document).ready(function($){
 			$editRow.fadeToggle( 'slow' );
 			return;
 		}
-		// $(this).hide(); Don't hide dear :) 
-
+		
 		$(".wc-fgc-overlay").show();
 		$("#wc-fgc-variation-container").hide();
 		$("#wc-fgc-cart-loader").show();
@@ -178,8 +213,9 @@ jQuery(document).ready(function($){
 	 });
 
 	 $(document).on("click",".single_add_to_cart_button",function(e){
-		alert("yesd");
-		$( '.wc_fgc_cart' ).addClass( 'loading' );
+
+		block( $( '.wc_fgc_cart' ) );
+
 	 	e.preventDefault();
 	 	if ( $(this).hasClass('disabled') ) {
 	 		return;
@@ -221,20 +257,24 @@ jQuery(document).ready(function($){
 	 			'cart_item_key':cart_item_key,
 	 			'nonce' : wc_fgc_params.wc_fgc_nonce,
 	 		},
-	 		success:function(response) {
-
-	 			if( response == true ){
-
-	 				location.reload();
-	 			}else{
-	 				if(response) {
+	 		success:function(response, statusText, xhr ) {
+				// console.log({response, statusText, xhr});
+	 			if( "success" === statusText ){
+					// Update WooCommerce Cart
+					let $wcCart = $( '.woocommerce-cart-form [name="update_cart"]' );
+					$wcCart.removeAttr( 'disabled' ).trigger( 'click' );
+				}else{
+	 				if( response ) {
 	 					$(".wc-fgc-stock-error").html(response);
 	 					$(".wc-fgc-stock-error").show();
 	 				}
 	 				
 	 				$('form.variations_form').find('div .woocommerce-variation-add-to-cart .input-text').show();
 	 			}
-	 		}
+			 },
+			 complete:function() {
+				 unblock( $( '.wc_fgc_cart' ) );
+			 }
 	 	});
 
 	 });
@@ -396,7 +436,8 @@ function wc_fgc_image_change_on_variation_popup()
 	 			if ( form.xhr ) {
 	 				form.xhr.abort();
 	 			}
-	 			form.$form.block( { message: null, overlayCSS: { background: '#fff', opacity: 0.6 } } );
+	 			// form.$form.block( { message: null, overlayCSS: { background: '#fff', opacity: 0.6 } } );
+	 			block( form.$form );
 	 			currentAttributes.product_id  = parseInt( form.$form.data( 'product_id' ), 10 );
 	 			currentAttributes.custom_data = form.$form.data( 'custom_data' );
 	 			form.xhr                      = $.ajax( {
@@ -413,7 +454,8 @@ function wc_fgc_image_change_on_variation_popup()
 	 					}
 	 				},
 	 				complete: function() {
-	 					form.$form.unblock();
+						 // form.$form.unblock();
+						 unblock( form.$form );
 	 				}
 	 			} );
 	 		} else {
