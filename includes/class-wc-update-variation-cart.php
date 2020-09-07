@@ -387,4 +387,13 @@ class WC_Update_Variation_Cart {
 			}
 		}
 	}
+
+	/**
+	 * Rendering cart widget?
+	 *
+	 * @return boolean
+	 */
+	public static function is_cart_widget() {
+		return did_action( 'woocommerce_before_mini_cart' ) > did_action( 'woocommerce_after_mini_cart' );
+	}
 }
