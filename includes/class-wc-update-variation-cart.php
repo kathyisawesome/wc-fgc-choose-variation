@@ -5,8 +5,7 @@
  * Handles all Variation Update related functionalities.
  *
  *
- * @since      1.0.0
- * @package    wc-update-variations-cart
+ * @since 1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
