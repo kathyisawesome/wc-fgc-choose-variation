@@ -1,11 +1,11 @@
 /*cusom css*/
-.wc_uvc_cart {
+.wc_fgc_cart {
   clear: both;
 }
 .onsale {
     position: relative;
 }
-.wc-uvc-product-loader {
+.wc-fgc-product-loader {
   position: fixed;
   left: 0px;
   right: 0px;
@@ -17,23 +17,23 @@
   display: none;
 }
 
-.wc-uvc-product-loader img {
+.wc-fgc-product-loader img {
   display: block;
   margin: 40% auto 0;
   width: 90px;
 }
 
-.wc-uvc-product-detail-container .type-product > div {
+.wc-fgc-product-detail-container .type-product > div {
   display: inline-block !important;
   vertical-align: top !important;
 }
 
-#wc-uvc-variation-container .woocommerce-variation-add-to-cart.variations_button > div, #wc-uvc-variation-container button {
+#wc-fgc-variation-container .woocommerce-variation-add-to-cart.variations_button > div, #wc-fgc-variation-container button {
   display: inline-block !important;
 }
 
 /*--Cart Page--*/
-.wc-uvc-cart-update a {
+.wc-fgc-cart-update a {
   color: #777 !important;
   font-size: 13px !important;
   text-transform: uppercase;
@@ -44,12 +44,12 @@
 }
 
 
-.wc-uvc-cart-update:hover a {
+.wc-fgc-cart-update:hover a {
   opacity: 1 !important;
 }
 
 /*error message*/
-.wc-uvc-stock-error {
+.wc-fgc-stock-error {
   display: none;
   background: #dd3333 none repeat scroll 0 0;
   color: #ffffff;
@@ -57,12 +57,12 @@
   text-align: center;
 }
 
-.wc_uvc_updatenow {
+.wc_fgc_updatenow {
   cursor: pointer;
 }
 
 /* todo: use SASS mixin */
-.wc_uvc_updatenow::before {
+.wc_fgc_updatenow::before {
   font-family: 'WooCommerce';
   speak: none;
   font-weight: normal;
@@ -80,13 +80,13 @@
  /* content: "\e603"; what is the woo content code for the edit icon? */
 }
 
-#wc-uvc-variation-container
+#wc-fgc-variation-container
 table.variations {
   max-width: 400px;
   width: 100%;
 }
 
-#wc-uvc-variation-container
+#wc-fgc-variation-container
 table.variations
 tr
 td.value {
@@ -117,8 +117,8 @@ td.value {
 /*
 
 @media only screen and (max-width: 768px) {
-  #wc-uvc-variation-container .images,
-  #wc-uvc-variation-container .summary.entry-summary {
+  #wc-fgc-variation-container .images,
+  #wc-fgc-variation-container .summary.entry-summary {
     max-width: 100% !important;
     width: 100% !important;
   }

@@ -28,12 +28,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since   1.0.0
  */
-function wc_fcg_update_variation_cart() {
-	if ( ! defined( 'WC_FGC_PLUGIN_NAME' ) ) {
-		define( 'WC_UVC_PLUGIN_NAME', plugin_basename( __FILE__ ) );
+function _wc_fcg_update_variation_cart() {
+	if ( ! defined( '_WC_FGC_PLUGIN_NAME' ) ) {
+		define( '_WC_FGC_PLUGIN_NAME', plugin_basename( __FILE__ ) );
 	}
-	require_once 'includes/class-wc-update-variation-cart.php';
-	WC_Update_Variation_Cart::init();
+	require_once 'includes/class-wc-fgc-update-variation-cart.php';
+	WC_FGC_Update_Variation_Cart::init();
 }
-add_action( 'plugins_loaded', 'wc_fcg_update_variation_cart' );
+add_action( 'plugins_loaded', '_wc_fcg_update_variation_cart' );
 

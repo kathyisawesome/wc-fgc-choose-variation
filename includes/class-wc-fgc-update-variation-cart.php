@@ -53,7 +53,7 @@ class WC_FGC_Update_Variation_Cart {
 
 		// Remove owl carousel
 		if( function_exists( 'is_cart' ) && is_cart() ) {
-			add_filter("woocommerce_single_product_carousel_options", "wuv_product_carousel_options", 10 );
+			add_filter("woocommerce_single_product_carousel_options", "product_carousel_options", 10 );
 		}
 
 		// Add edit option on the cart page.
@@ -83,7 +83,7 @@ class WC_FGC_Update_Variation_Cart {
 		// check is cart page or not.
 		if ( is_cart() ) {
 			// Enqueue js.
-			wp_enqueue_script( self::$name . '_js', plugin_dir_url( WC_fgc_PLUGIN_NAME ) . 'assests/js/wc-update-variation-cart-front.js', array( 'jquery', 'flexslider' ), self::$version, false );
+			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assests/js/wc-update-variation-cart-front.js', array( 'jquery', 'flexslider' ), self::$version, false );
 
 			$wc_fgc_trans_array = array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ), // ajax url.
@@ -111,7 +111,7 @@ class WC_FGC_Update_Variation_Cart {
 			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
 			// Enqueue needed css for it.
-			wp_enqueue_style( self::$name . '_css', plugin_dir_url( WC_fgc_PLUGIN_NAME ) . 'assests/css/wc-update-variation-front.css', array(), self::$version, 'all' );
+			wp_enqueue_style( self::$name . '_css', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assests/css/wc-update-variation-front.css', array(), self::$version, 'all' );
 
 			// localize array here.
 			wp_localize_script( self::$name . '_js', 'wc_fgc_params', $wc_fgc_trans_array );
@@ -139,7 +139,7 @@ class WC_FGC_Update_Variation_Cart {
 	public static function add_product_div() {
 		echo '<div class="wc-fgc-overlay2">
 				<div id="wc-fgc-cart-loader"  class="wc-fgc-product-loader">
-					<img alt="Loading.." src="' . esc_url( plugin_dir_url( WC_fgc_PLUGIN_NAME ) ) . 'assests/images/loader.gif">
+					<img alt="Loading.." src="' . esc_url( plugin_dir_url( _WC_FGC_PLUGIN_NAME ) ) . 'assests/images/loader.gif">
 				</div>
 			</div>';
 	}
@@ -186,10 +186,10 @@ class WC_FGC_Update_Variation_Cart {
 	/**
 	 * Ajax Handler for update cart.
 	 *
-	 * @name wc_fgc_get_variation_html
+	 * @name get_variation_html
 	 * @since 1.0.0
 	 */
-	public static function wc_fgc_get_variation_html() {
+	public static function get_variation_html() {
 		check_ajax_referer( 'wc-fgc-verify-nonce', 'nonce' );
 
 		global $product,$post;
