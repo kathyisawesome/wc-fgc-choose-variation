@@ -49,10 +49,11 @@ jQuery(document).ready(function($){
 			$editRow.fadeToggle( 'slow' );
 			return;
 		}
-		
-		$(".wc-fgc-overlay").show();
+
+		block( $( '.woocommerce-cart-form' ) );
+	//	$(".wc-fgc-overlay").show();
 		$("#wc-fgc-variation-container").hide();
-		$("#wc-fgc-cart-loader").show();
+	//	$("#wc-fgc-cart-loader").show();
 		var proID = $(this).data('product_id');
 		var variationID = $(this).data('variation_id');
 		var $thisTR = $(this).closest('td').parent();
@@ -74,16 +75,13 @@ jQuery(document).ready(function($){
 				'variation_id' : variationID,
 				'cart_item_key' : cart_item_key,
 			},
-			success:function(response) {
-				$("#wc-fgc-cart-loader").hide();
-				// var html = '<input type="hidden" id="wc_fgc_prevproid" value="'+variationID+'"><p class="close_icon"><span class="wc-fgc-close-btn">&times;</span></p>';
+			success:function( response ) {
 
-				// response = html+response;
+				// var html = '<input type="hidden" id="wc_fgc_prevproid" value="'+variationID+'"><p class="close_icon"><span class="wc-fgc-close-btn">&times;</span></p>';
 				var length = $('#wc_fgc_'+cart_item_key).length;
 				// Custom Code
  				console.log( $('#wc_fgc_'+cart_item_key) );
 				if ( 0 == length ) {
-
  					current_item_product.after('<tr class="new_row" id="new_row"><td colspan="6">'+response+'</td></tr>');
 				}
 
@@ -112,6 +110,13 @@ jQuery(document).ready(function($){
 					//$($cartDiv).find('.single_add_to_cart_button').attr('disabled','disabled');
 					$("#wc-fgc-variation-container").show();
 
+				},
+				complete:function( response, statusText ) {
+					// If 200 wasn't returned.
+					if( 'success' !== statusText ){
+						alert( '🤕 Sorry, an error occured, please try again later.' );
+					}
+					unblock( $( '.woocommerce-cart-form' ) );
 				}
 			});
 		
@@ -283,7 +288,7 @@ jQuery(document).ready(function($){
 
 	 	$("#wc-fgc-variation-container").html( ' ' );
 	 	$("#wc-fgc-variation-container").hide();
-	 	$(".wc-fgc-overlay").hide();
+	 	// $(".wc-fgc-overlay").hide();
 	 	$('.wc_fgc_updatenow').show();
 	 });
 
