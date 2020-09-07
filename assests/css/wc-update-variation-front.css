@@ -1,6 +1,9 @@
 /*cusom css*/
 .wc_fgc_cart {
   clear: both;
+  background: rgba(254,254,254,0.2);
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+  padding: 10px;
 }
 .onsale {
     position: relative;

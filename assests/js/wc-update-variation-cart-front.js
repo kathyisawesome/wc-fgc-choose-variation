@@ -6,6 +6,13 @@ jQuery(document).ready(function($){
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
 
+		// Check if window is already opened.
+		let $editRow = $( '.wc_fgc_cart' ).closest( 'tr.new_row' );
+		if ( $editRow.length > 0 ) {
+			// toggle :) better UX.
+			$editRow.fadeToggle( 'slow' );
+			return;
+		}
 		// $(this).hide(); Don't hide dear :) 
 
 		$(".wc-fgc-overlay").show();
@@ -171,7 +178,8 @@ jQuery(document).ready(function($){
 	 });
 
 	 $(document).on("click",".single_add_to_cart_button",function(e){
-
+		alert("yesd");
+		$( '.wc_fgc_cart' ).addClass( 'loading' );
 	 	e.preventDefault();
 	 	if ( $(this).hasClass('disabled') ) {
 	 		return;
