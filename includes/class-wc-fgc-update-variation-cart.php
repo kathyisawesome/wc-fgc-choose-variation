@@ -46,9 +46,6 @@ class WC_FGC_Update_Variation_Cart {
 		// Enqueue required js and css.
 		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_cart_script' ) );
 
-		// Create seprate div for showing the loader.
-		add_action( 'woocommerce_after_cart', array( __CLASS__, 'add_product_div' ) );
-
 		// Remove owl carousel
 		if( function_exists( 'is_cart' ) && is_cart() ) {
 			add_filter("woocommerce_single_product_carousel_options", "product_carousel_options", 10 );
@@ -127,20 +124,6 @@ class WC_FGC_Update_Variation_Cart {
 		$options['controlNav'] = false;
 		var_dump( $options);
 		return $options;
-	}
-  
-	/**
-	 * Create seprate div for loader
-	 *
-	 * @name wc_fgc_add_product_container
-	 * @since 1.0.0
-	 */
-	public static function add_product_div() {
-		echo '<div class="wc-fgc-overlay2">
-				<div id="wc-fgc-cart-loader"  class="wc-fgc-product-loader">
-					<img alt="Loading.." src="' . esc_url( plugin_dir_url( _WC_FGC_PLUGIN_NAME ) ) . 'assests/images/loader.gif">
-				</div>
-			</div>';
 	}
 
 	/**
