@@ -37,7 +37,7 @@ class WC_Update_Variation_Cart {
 	 *
 	 * @var string
 	 */
-	public static $name = 'wc_uvc';
+	public static $name = 'wc_fgc';
 
 	/**
 	 * The required WooCommerce version
@@ -54,43 +54,43 @@ class WC_Update_Variation_Cart {
 	public static function init() {
 
 		// Enqueue required js and css.
-		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'wc_uvc_enqueue_cart_script' ) );
+		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_cart_script' ) );
 
 		// Create seprate div for showing the loader.
-		add_action( 'woocommerce_after_cart', array( __CLASS__, 'wc_uvc_add_product_div' ) );
+		add_action( 'woocommerce_after_cart', array( __CLASS__, 'add_product_div' ) );
 
 		// Add edit option on the cart page.
-		add_action( 'woocommerce_after_cart_item_name', array( __CLASS__, 'wc_uvc_variation_update_icon' ), 1, 2 );
+		add_action( 'woocommerce_after_cart_item_name', array( __CLASS__, 'variation_update_icon' ), 1, 2 );
 
 		// Handle the ajax request of the update cart.
-		add_action( 'wp_ajax_wc_uvc_get_product_html', array( __CLASS__, 'wc_uvc_get_variation_html' ) );
-		add_action( 'wp_ajax_nopriv_wc_uvc_get_product_html', array( __CLASS__, 'wc_uvc_get_variation_html' ) );
+		add_action( 'wp_ajax_wc_fgc_get_product_html', array( __CLASS__, 'get_variation_html' ) );
+		add_action( 'wp_ajax_nopriv_wc_fgc_get_product_html', array( __CLASS__, 'get_variation_html' ) );
 
 		// Update the cart as per the user choice.
-		add_action( 'wp_ajax_wc_uvc_update_variation_in_cart', array( __CLASS__, 'wc_uvc_update_variation_in_cart' ) );
-		add_action( 'wp_ajax_nopriv_wc_uvc_update_variation_in_cart', array( __CLASS__, 'wc_uvc_update_variation_in_cart' ) );
+		add_action( 'wp_ajax_wc_fgc_update_variation_in_cart', array( __CLASS__, 'update_variation_in_cart' ) );
+		add_action( 'wp_ajax_nopriv_wc_fgc_update_variation_in_cart', array( __CLASS__, 'update_variation_in_cart' ) );
 
 		// Show error message on the checkout page.
-		add_action( 'woocommerce_before_checkout_process', array( __CLASS__, 'wc_uvc_check_is_valid_product' ) );
+		add_action( 'woocommerce_before_checkout_process', array( __CLASS__, 'check_is_valid_product' ) );
 	}
 
 	/**
 	 * Enqueue needed js and css
 	 *
-	 * @name wc_uvc_enqueue_cart_script
+	 * @name enqueue_cart_script
 	 * @param string $page   Name of the page.
 	 * @since 1.0.0
 	 */
-	public static function wc_uvc_enqueue_cart_script( $page ) {
+	public static function enqueue_cart_script( $page ) {
 
 		// check is cart page or not.
 		if ( is_cart() ) {
 			// Enqueue js.
-			wp_enqueue_script( self::$name . '_js', plugin_dir_url( WC_UVC_PLUGIN_NAME ) . 'assests/js/wc-update-variation-cart-front.js', array( 'jquery', 'flexslider' ), self::$version, false );
+			wp_enqueue_script( self::$name . '_js', plugin_dir_url( WC_fgc_PLUGIN_NAME ) . 'assests/js/wc-update-variation-cart-front.js', array( 'jquery', 'flexslider' ), self::$version, false );
 
-			$wc_uvc_trans_array = array(
+			$wc_fgc_trans_array = array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ), // ajax url.
-				'wc_uvc_nonce'       => wp_create_nonce( 'wc-uvc-verify-nonce' ),
+				'wc_fgc_nonce'       => wp_create_nonce( 'wc-fgc-verify-nonce' ),
 				'flexslider'         => apply_filters(
 					'woocommerce_single_product_carousel_options',
 					array(
@@ -114,10 +114,10 @@ class WC_Update_Variation_Cart {
 			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
 			// Enqueue needed css for it.
-			wp_enqueue_style( self::$name . '_css', plugin_dir_url( WC_UVC_PLUGIN_NAME ) . 'assests/css/wc-update-variation-front.css', array(), self::$version, 'all' );
+			wp_enqueue_style( self::$name . '_css', plugin_dir_url( WC_fgc_PLUGIN_NAME ) . 'assests/css/wc-update-variation-front.css', array(), self::$version, 'all' );
 
 			// localize array here.
-			wp_localize_script( self::$name . '_js', 'wc_uvc_params', $wc_uvc_trans_array );
+			wp_localize_script( self::$name . '_js', 'wc_fgc_params', $wc_fgc_trans_array );
 		}
 
 	}
@@ -125,13 +125,13 @@ class WC_Update_Variation_Cart {
 	/**
 	 * Create seprate div for loader
 	 *
-	 * @name wc_uvc_add_product_container
+	 * @name wc_fgc_add_product_container
 	 * @since 1.0.0
 	 */
-	public static function wc_uvc_add_product_div() {
-		echo '<div class="wc-uvc-overlay2">
-				<div id="wc-uvc-cart-loader"  class="wc-uvc-product-loader">
-					<img alt="Loading.." src="' . esc_url( plugin_dir_url( WC_UVC_PLUGIN_NAME ) ) . 'assests/images/loader.gif">
+	public static function add_product_div() {
+		echo '<div class="wc-fgc-overlay2">
+				<div id="wc-fgc-cart-loader"  class="wc-fgc-product-loader">
+					<img alt="Loading.." src="' . esc_url( plugin_dir_url( WC_fgc_PLUGIN_NAME ) ) . 'assests/images/loader.gif">
 				</div>
 			</div>';
 	}
@@ -139,12 +139,12 @@ class WC_Update_Variation_Cart {
 	/**
 	 * Add edit icon on the product page.
 	 *
-	 * @name wc_uvc_variation_update_icon
+	 * @name variation_update_icon
 	 * @since 1.0.0
 	 * @param array        $cart_item  Cart item array.
 	 * @param array string $cart_item_key Cart item key.
 	 */
-	public static function wc_uvc_variation_update_icon( $cart_item, $cart_item_key ) {
+	public static function variation_update_icon( $cart_item, $cart_item_key ) {
 
 		$_product = $cart_item['data'];
 
@@ -166,8 +166,8 @@ class WC_Update_Variation_Cart {
 			$edit_in_cart_link_content = sprintf( __( '<small>%1$s<span class="dashicons dashicons-after dashicons-edit"></span></small>', 'edit in cart text', 'wc_fgc_update_variation' ), $edit_in_cart_text );
 
 			$variation_html =
-			'<div class="wc-uvc-cart-update">
-				<a href="javascript:void(0)" class="edit_price_in_cart_text edit_in_cart_text wc_uvc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .' "data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
+			'<div class="wc-fgc-cart-update">
+				<a href="javascript:void(0)" class="edit_price_in_cart_text edit_in_cart_text wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .' "data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
 			</div>';
@@ -178,11 +178,11 @@ class WC_Update_Variation_Cart {
 	/**
 	 * Ajax Handler for update cart.
 	 *
-	 * @name wc_uvc_get_variation_html
+	 * @name wc_fgc_get_variation_html
 	 * @since 1.0.0
 	 */
-	public static function wc_uvc_get_variation_html() {
-		check_ajax_referer( 'wc-uvc-verify-nonce', 'nonce' );
+	public static function wc_fgc_get_variation_html() {
+		check_ajax_referer( 'wc-fgc-verify-nonce', 'nonce' );
 
 		global $product,$post;
 		// verify the ajax request.
@@ -216,14 +216,14 @@ class WC_Update_Variation_Cart {
 		$post = get_post( $product_id );
 
 		/* setting global things on our own for getting things in woocommerce manner ::end */
-		do_action( 'wc-uvc-before-product-html' );
+		do_action( 'wc_fgc_before_product_html' );
 		?>
-		<div class="wc_uvc_cart" data-title="<?php echo esc_attr( $product->add_to_cart_text() ); ?>" id="wc_uvc_<?php echo $_cart_item_key; ?>">
+		<div class="wc_fgc_cart" data-title="<?php echo esc_attr( $product->add_to_cart_text() ); ?>" id="wc_fgc_<?php echo $_cart_item_key; ?>">
 
-			<div class="wc-uvc-stock-error" style="display: none;"></div>
+			<div class="wc-fgc-stock-error" style="display: none;"></div>
 
-			<input type="hidden" id="wc_uvc_prevproid" value="<? echo $variation_id; ?>">
-			<input type="hidden" id="wc_uvc_cart_item_key" value="<?php echo $_cart_item_key; ?>">
+			<input type="hidden" id="wc_fgc_prevproid" value="<? echo $variation_id; ?>">
+			<input type="hidden" id="wc_fgc_cart_item_key" value="<?php echo $_cart_item_key; ?>">
 		<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<?php
 			/*
@@ -263,7 +263,7 @@ class WC_Update_Variation_Cart {
 			</div>
 			<?php
 
-			do_action( 'wc-uvc-after-product-html' );
+			do_action( 'wc_fgc_after_product_html' );
 
 			wp_die();
 	}
@@ -271,15 +271,15 @@ class WC_Update_Variation_Cart {
 	/**
 	 * Handle ajax as per the updation in the cart.
 	 *
-	 * @name wc_uvc_update_variation_in_cart
+	 * @name wc_fgc_update_variation_in_cart
 	 * @since 1.0.0
 	 */
-	public static function wc_uvc_update_variation_in_cart() {
+	public static function update_variation_in_cart() {
 		// verify the ajax request.
-		check_ajax_referer( 'wc-uvc-verify-nonce', 'nonce' );
+		check_ajax_referer( 'wc-fgc-verify-nonce', 'nonce' );
 		global $woocommerce;
 
-		do_action( 'wc-uvc-before-updating-product-in-cart' );
+		do_action( 'wc_fgc_before_updating_product_in_cart' );
 
 		$_product_id = ! empty( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : 0;
 
@@ -339,10 +339,10 @@ class WC_Update_Variation_Cart {
 	/**
 	 * Check is valid product in the cart.
 	 *
-	 * @name wc_uvc_check_is_valid_product
+	 * @name check_is_valid_product
 	 * @since 1.0.0
 	 */
-	public static function wc_uvc_check_is_valid_product() {
+	public static function check_is_valid_product() {
 		$cart = WC()->cart->get_cart();
 
 		if ( ! empty( $cart ) ) {
