@@ -1,9 +1,9 @@
 <?php
 /**
- * The main class of the plugin.
+ * Update Variations in cart.
  *
- * Handles all plugin related functionalities of
- * this plugin.
+ * Handles all Variation Update related functionalities.
+ *
  *
  * @since      1.0.0
  * @package    wc-update-variations-cart
@@ -13,19 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'WC_Update_Variation_Cart' ) ) {
-	return; // Exit if class exists.
+if ( class_exists( 'WC_FGC_Update_Variation_Cart' ) ) {
+	return;
 }
 
 /**
- * Main WC_Update_Variation_Cart Class
+ * Main WC_FGC_Update_Variation_Cart Class
  *
- * @class WC_Update_Variation_Cart
+ * @class WC_FGC_Update_Variation_Cart
  * @package Class
  * @author   Kevin
  * @version 1.0.0
  */
-class WC_Update_Variation_Cart {
+class WC_FGC_Update_Variation_Cart {
 	/**
 	 * The plugin version
 	 *
@@ -38,13 +38,6 @@ class WC_Update_Variation_Cart {
 	 * @var string
 	 */
 	public static $name = 'wc_fgc';
-
-	/**
-	 * The required WooCommerce version
-	 *
-	 * @var string
-	 */
-	public static $required_woo = '3.1.0';
 
 	/**
 	 * WC Update Variation Cart constructor
