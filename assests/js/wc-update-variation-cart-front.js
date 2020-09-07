@@ -6,8 +6,8 @@ jQuery(document).ready(function($){
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
 
-		$(this).hide();
-		
+		// $(this).hide(); Don't hide dear :) 
+
 		$(".wc-fgc-overlay").show();
 		$("#wc-fgc-variation-container").hide();
 		$("#wc-fgc-cart-loader").show();
@@ -215,7 +215,7 @@ jQuery(document).ready(function($){
 	 		},
 	 		success:function(response) {
 
-	 			if(response==true){
+	 			if( response == true ){
 
 	 				location.reload();
 	 			}else{

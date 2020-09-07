@@ -34,15 +34,21 @@
 
 /*--Cart Page--*/
 .wc-fgc-cart-update a {
-  color: #777 !important;
-  font-size: 13px !important;
-  text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
   vertical-align: middle;
-  opacity: .8;
+  opacity: 1;
 }
 
+.wc-fgc-edit-var-link{
+  border: 1px solid;
+  padding: 5px;
+  border-radius: 100px;
+  margin: 20px 0px;
+  position: relative;
+  top: 10px;
+  text-decoration: none !important;
+}
 
 .wc-fgc-cart-update:hover a {
   opacity: 1 !important;
