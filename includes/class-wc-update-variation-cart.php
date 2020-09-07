@@ -59,6 +59,11 @@ class WC_Update_Variation_Cart {
 		// Create seprate div for showing the loader.
 		add_action( 'woocommerce_after_cart', array( __CLASS__, 'add_product_div' ) );
 
+		// Remove owl carousel
+		if( function_exists( 'is_cart' ) && is_cart() ) {
+			add_filter("woocommerce_single_product_carousel_options", "wuv_product_carousel_options", 10 );
+		}
+
 		// Add edit option on the cart page.
 		add_action( 'woocommerce_after_cart_item_name', array( __CLASS__, 'variation_update_icon' ), 1, 2 );
 
@@ -122,6 +127,17 @@ class WC_Update_Variation_Cart {
 
 	}
 
+	/**
+	 * Remove slider for the updation
+	 *
+	 * @since 1.0.0
+	 * @name product_carousel_options
+	 */
+	public static function product_carousel_options( $options ) {
+		$options['controlNav'] = false;
+		return $options;
+	}
+  
 	/**
 	 * Create seprate div for loader
 	 *
