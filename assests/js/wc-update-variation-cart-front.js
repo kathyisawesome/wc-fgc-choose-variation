@@ -36,6 +36,20 @@ jQuery(document).ready(function($){
 		$node.removeClass( 'processing' ).unblock();
 	};
 
+	/**
+	 * Trigger wc_fgc_updatenow click
+	 * 
+	 * Only when variation hasn't been selected
+	 */
+	var observer = new MutationObserver( function(mutations) {
+		if ( $( '.wc-fgc-show-edit' ).length > 0 ) {
+			alert("yup");
+			$( '.wc_fgc_updatenow' ).trigger( 'click' );
+			// observer.disconnect();
+		}
+	 });
+	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true} );
+
 	wc_fgc_image_change_on_variation_popup();
 
 	var ajax_url = wc_fgc_params.ajax_url;
@@ -126,16 +140,6 @@ jQuery(document).ready(function($){
 			});
 		
 	});
-
-	/**
-	 * Trigger wc_fgc_updatenow click
-	 * 
-	 * Only when variation hasn't been selected
-	 */
-	if ( $( '.wc-fgc-show-edit' ).length > 0 ) {
-		$( '.wc_fgc_updatenow' ).trigger( 'click' );
-	}
-
 
 	/*
 	* This code is used from WooCommerce. We are using this js to implement 
@@ -968,3 +972,21 @@ function wc_fgc_image_change_on_variation_popup()
 
 	})( jQuery, window, document );
 }
+
+function observeElement( element ) {
+
+	var OldHtml = window.jQuery.fn.html;
+ 
+	window.jQuery.fn.html = function () {
+ 
+	  var EnhancedHtml = OldHtml.apply(this, arguments);
+ 
+	  if (arguments.length && EnhancedHtml.find( element ).length ) {
+		  alert("added");
+		  var TheElementAdded = EnhancedHtml.find( element ); // there it is
+	  }
+ 
+	  return EnhancedHtml;
+	}
+ }
+ jQuery( observeElement( '.wc-fgc-show-edit' ) );
