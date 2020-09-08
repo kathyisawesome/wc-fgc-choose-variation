@@ -164,15 +164,7 @@ class WC_FGC_Update_Variation_Cart {
 				<a href="javascript:void(0)" class="wc-fgc-edit-var-link wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .' "data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
-			</div>
-			<script>
-				$(document).ready(function(){
-					if ( $( ".wc-fgc-show-edit" ).length > 0 ) {
-						$( ".wc_fgc_updatenow" ).trigger( "click" );
-					}
-				});
-			</script>
-			';
+			</div>';
 			echo $variation_html;
 		}
 	}
