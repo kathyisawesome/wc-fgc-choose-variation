@@ -52,7 +52,7 @@ class WC_FGC_Update_Variation_Cart {
 		}
 
 		// Add edit option on the cart page.
-		add_action( 'woocommerce_after_cart_item_name', array( __CLASS__, 'variation_update_icon' ), 1, 2 );
+		add_action( 'woocommerce_after_cart_item_name', array( __CLASS__, 'variation_update_data' ), 1, 2 );
 
 		// Handle the ajax request of the update cart.
 		add_action( 'wp_ajax_wc_fgc_get_product_html', array( __CLASS__, 'get_variation_html' ) );
@@ -127,14 +127,14 @@ class WC_FGC_Update_Variation_Cart {
 	}
 
 	/**
-	 * Add edit icon on the product page.
+	 * Add data on the product page.
 	 *
-	 * @name variation_update_icon
+	 * @name variation_update_data
 	 * @since 1.0.0
 	 * @param array        $cart_item  Cart item array.
 	 * @param array string $cart_item_key Cart item key.
 	 */
-	public static function variation_update_icon( $cart_item, $cart_item_key ) {
+	public static function variation_update_data( $cart_item, $cart_item_key ) {
 
 		$_product = $cart_item['data'];
 
@@ -164,7 +164,15 @@ class WC_FGC_Update_Variation_Cart {
 				<a href="javascript:void(0)" class="wc-fgc-edit-var-link wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .' "data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
-			</div>';
+			</div>
+			<script>
+				$(document).ready(function(){
+					if ( $( ".wc-fgc-show-edit" ).length > 0 ) {
+						$( ".wc_fgc_updatenow" ).trigger( "click" );
+					}
+				});
+			</script>
+			';
 			echo $variation_html;
 		}
 	}
