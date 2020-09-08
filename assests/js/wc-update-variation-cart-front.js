@@ -37,18 +37,21 @@ jQuery(document).ready(function($){
 	};
 
 	/**
-	 * Trigger wc_fgc_updatenow click
+	 * Trigger wc_fgc_updatenow click.
 	 * 
 	 * Only when variation hasn't been selected
 	 */
 	var observer = new MutationObserver( function( mutations ) {
 		// Check if window is already opened.
-		let $editRow = $( '.wc_fgc_cart' ).closest( 'tr.new_row' );
+		let $editRow = $( '.wc_fgc_cart' ).closest( 'tr.wc-fgc-new-row' );
+		let $editBtnParent = $( '.wc-fgc-show-edit' );
 
 		// If variation to edit is only 1, and the edit row is not yet opened.
-		if ( $( '.wc-fgc-show-edit' ).length == 1  && $editRow.length == 0 ) {
+		if ( $editBtnParent.length == 1  && $editRow.length == 0 ) {
+			// Get particular id so we do not trigger multiple.
+			let btnParentIdAttr = $editBtnParent.attr( 'id' );
 			console.log("yup");
-			$( '.wc_fgc_updatenow' ).trigger( 'click' );
+			$( `#${btnParentIdAttr} .wc_fgc_updatenow` ).trigger( 'click' );
 			// observer.disconnect();
 		}
 	 });
@@ -59,9 +62,12 @@ jQuery(document).ready(function($){
 	var ajax_url = wc_fgc_params.ajax_url;
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
+		let cartItemIdAttr = $( this ).closest( '.wc-fgc-cart-update' ).attr( 'id' );
+		let cartItemId     = cartItemIdAttr.split( '_' )[1];
 
 		// Check if window is already opened.
-		let $editRow = $( '.wc_fgc_cart' ).closest( 'tr.new_row' );
+		let $editRow = $( 'tr#wc-fgc-new-row-' + cartItemId );
+		console.log($editRow.length);
 		if ( $editRow.length > 0 ) {
 			// toggle :) better UX.
 			$editRow.fadeToggle( 'slow' );
@@ -69,9 +75,7 @@ jQuery(document).ready(function($){
 		}
 
 		block( $( '.woocommerce-cart-form' ) );
-	//	$(".wc-fgc-overlay").show();
 		$("#wc-fgc-variation-container").hide();
-	//	$("#wc-fgc-cart-loader").show();
 		var proID = $(this).data('product_id');
 		var variationID = $(this).data('variation_id');
 		var $thisTR = $(this).closest('td').parent();
@@ -100,7 +104,7 @@ jQuery(document).ready(function($){
 				// Custom Code
  				// console.log( $('#wc_fgc_'+cart_item_key) );
 				if ( 0 == length ) {
- 					current_item_product.after('<tr class="new_row" id="new_row"><td colspan="6">'+response+'</td></tr>');
+ 					current_item_product.after('<tr class="wc-fgc-new-row" id="wc-fgc-new-row-'+cart_item_key+'"><td colspan="6">'+response+'</td></tr>');
 				}
 
 				// Custom Code
@@ -114,7 +118,7 @@ jQuery(document).ready(function($){
 				}
 
 				// Temporarily find/update data-title attr for responsive table. Need to find a better way.
-				$('#new_row').data( 'title', $('#wc_fgc_'+cart_item_key).data( 'title' ) );
+				$( '#wc-fgc-new-row-' + cart_item_key ).data( 'title', $('#wc_fgc_'+cart_item_key).data( 'title' ) );
 
 				  //changing the add-to-cart button to update and hiding quantity field.
 				  var $cartDiv = $('#wc_fgc_'+cart_item_key).find('div .woocommerce-variation-add-to-cart');
@@ -250,13 +254,13 @@ jQuery(document).ready(function($){
 
 		$id = $(this).closest('.wc_fgc_cart').attr('id');
 	 	var product_id = $('#'+$id).find('input[name="product_id"]').val();
-	 	
+
 	 	var quantity = $('#'+$id).find('input[name="quantity"]').val();
-	 	
+
 	 	var PrevProId = $("#"+$id+" #wc_fgc_prevproid").val();
-	 	
+
 	 	var cart_item_key = $("#"+$id+" #wc_fgc_cart_item_key").val();
-	 	
+
 	 	var variation_id = $('#'+$id).find('input[name="variation_id"]').val();
 	 	if(Math.floor(quantity))
 	 	var variation = {};
@@ -422,12 +426,14 @@ function wc_fgc_image_change_on_variation_popup()
 	 VariationForm.prototype.onAddToCart = function( event ) {
 	 	if ( $( this ).is('.disabled') ) {
 	 		event.preventDefault();
-
-	 		if ( $( this ).is('.wc-variation-is-unavailable') ) {
+			console.log($(this));
+			if ( $( this ).is('.wc-variation-is-unavailable') ) {
 	 			window.alert( wc_add_to_cart_variation_params.i18n_unavailable_text );
-	 		} else if ( $( this ).is('.wc-variation-selection-needed') ) {
+			} else if ( $( this ).is('.wc-variation-selection-needed') ) {
 	 			window.alert( wc_add_to_cart_variation_params.i18n_make_a_selection_text );
-	 		}
+				 console.log('unavailable clicked needed');
+	 		 
+			}
 	 	}
 	 };
 
@@ -976,21 +982,3 @@ function wc_fgc_image_change_on_variation_popup()
 
 	})( jQuery, window, document );
 }
-
-function observeElement( element ) {
-
-	var OldHtml = window.jQuery.fn.html;
- 
-	window.jQuery.fn.html = function () {
- 
-	  var EnhancedHtml = OldHtml.apply(this, arguments);
- 
-	  if (arguments.length && EnhancedHtml.find( element ).length ) {
-		  alert("added");
-		  var TheElementAdded = EnhancedHtml.find( element ); // there it is
-	  }
- 
-	  return EnhancedHtml;
-	}
- }
- jQuery( observeElement( '.wc-fgc-show-edit' ) );

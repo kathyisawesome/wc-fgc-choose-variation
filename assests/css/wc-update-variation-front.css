@@ -119,16 +119,16 @@ td.value {
 =            RESPONSIVE TABLE        =
 =====================================*/
 
-.woocommerce table.shop_table_responsive tr.new_row td, .woocommerce-page table.shop_table_responsive tr.new_row td {
+.woocommerce table.shop_table_responsive tr.wc-fgc-new-row td, .woocommerce-page table.shop_table_responsive tr.wc-fgc-new-row td {
   text-align: left !important;
 }
 
-.woocommerce table.shop_table_responsive tr.new_row td::before, .woocommerce-page table.shop_table_responsive tr.new_row td::before {
+.woocommerce table.shop_table_responsive tr.wc-fgc-new-row td::before, .woocommerce-page table.shop_table_responsive tr.wc-fgc-new-row td::before {
   display: block;
   content: "";
 }
 
-.woocommerce table.shop_table_responsive tr.new_row .variations tr, .woocommerce-page table.shop_table_responsive tr.new_row .variations tr {
+.woocommerce table.shop_table_responsive tr.wc-fgc-new-row .variations tr, .woocommerce-page table.shop_table_responsive tr.wc-fgc-new-row .variations tr {
     border: 0;
 }
 
