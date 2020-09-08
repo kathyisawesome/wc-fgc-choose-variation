@@ -80,7 +80,7 @@ jQuery(document).ready(function($){
 				// var html = '<input type="hidden" id="wc_fgc_prevproid" value="'+variationID+'"><p class="close_icon"><span class="wc-fgc-close-btn">&times;</span></p>';
 				var length = $('#wc_fgc_'+cart_item_key).length;
 				// Custom Code
- 				console.log( $('#wc_fgc_'+cart_item_key) );
+ 				// console.log( $('#wc_fgc_'+cart_item_key) );
 				if ( 0 == length ) {
  					current_item_product.after('<tr class="new_row" id="new_row"><td colspan="6">'+response+'</td></tr>');
 				}
@@ -110,6 +110,11 @@ jQuery(document).ready(function($){
 					//$($cartDiv).find('.single_add_to_cart_button').attr('disabled','disabled');
 					$("#wc-fgc-variation-container").show();
 
+					// scroll to the section, cool UX 8-)
+					$( 'body,html' ).animate( {
+						scrollTop: ( $( '#wc_fgc_' + cart_item_key ).offset().top - 100 )
+					}, 800 );
+
 				},
 				complete:function( response, statusText ) {
 					// If 200 wasn't returned.
@@ -121,8 +126,17 @@ jQuery(document).ready(function($){
 			});
 		
 	});
-	
-	
+
+	/**
+	 * Trigger wc_fgc_updatenow click
+	 * 
+	 * Only when variation hasn't been selected
+	 */
+	if ( $( '.wc-fgc-show-edit' ).length > 0 ) {
+		$( '.wc_fgc_updatenow' ).trigger( 'click' );
+	}
+
+
 	/*
 	* This code is used from WooCommerce. We are using this js to implement 
 	* single page flexslider
@@ -219,13 +233,14 @@ jQuery(document).ready(function($){
 
 	 $(document).on("click",".single_add_to_cart_button",function(e){
 
-		block( $( '.wc_fgc_cart' ) );
-
 	 	e.preventDefault();
 	 	if ( $(this).hasClass('disabled') ) {
 	 		return;
 	 	}
-	 	$id = $(this).closest('.wc_fgc_cart').attr('id');
+
+		block( $( '.wc_fgc_cart' ) );
+
+		$id = $(this).closest('.wc_fgc_cart').attr('id');
 	 	var product_id = $('#'+$id).find('input[name="product_id"]').val();
 	 	
 	 	var quantity = $('#'+$id).find('input[name="quantity"]').val();

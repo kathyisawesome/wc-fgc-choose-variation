@@ -140,19 +140,27 @@ class WC_FGC_Update_Variation_Cart {
 
 		$product_id = isset( $cart_item['product_id'] ) ? intval( $cart_item['product_id'] ) : 0; // Get the variation id.
 		$variation_id = isset( $cart_item['variation_id'] ) ? intval( $cart_item['variation_id'] ) : 0; // Get the variation id.
-		
+	
 		$get_gift_cart_meta = isset( $cart_item['free_gift'] ) ? $cart_item['free_gift'] : '';
 
-		// check if product is varaible and has free gift item meta in it.
-		if ( ( $_product->is_type( 'variable' ) || $cart_item['variation_id'] > 0 ) && ! empty( $cart_item['free_gift'] ) ) {
+		// Check if product is varaible and has free gift item meta in it.
+		if ( ( $_product->is_type( 'variable' ) || $variation_id > 0 ) && ! empty( $get_gift_cart_meta ) ) {
 
-			$edit_in_cart_text = $cart_item['variation_id'] > 0 ? _x( 'Change options', 'edit in cart link text', 'wc_fgc_update_variation' ) : _x( 'Choose options', 'edit in cart link text', 'wc_fgc_update_variation' );
+			// Check if no variation selected, so as to do something cool :)
+			if ( $variation_id > 0 ) {
+				$edit_in_cart_text = _x( 'Change options', 'edit in cart link text', 'wc_fgc_update_variation' );
+				$var_edit_trigger_class = '';
+			}
+			else {
+				$edit_in_cart_text = _x( 'Choose options', 'edit in cart link text', 'wc_fgc_update_variation' );
+				$var_edit_trigger_class = ' wc-fgc-show-edit';
+			}
 
 			// Translators: %1$s text for edit price link.
 			$edit_in_cart_link_content = sprintf( __( '<small>%1$s<span class="dashicons dashicons-after dashicons-edit"></span></small>', 'edit in cart text', 'wc_fgc_update_variation' ), $edit_in_cart_text );
 
 			$variation_html =
-			'<div class="wc-fgc-cart-update">
+			'<div class="wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
 				<a href="javascript:void(0)" class="wc-fgc-edit-var-link wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .' "data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
