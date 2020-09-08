@@ -160,7 +160,7 @@ class WC_FGC_Update_Variation_Cart {
 			$edit_in_cart_link_content = sprintf( __( '<small>%1$s<span class="dashicons dashicons-after dashicons-edit"></span></small>', 'edit in cart text', 'wc_fgc_update_variation' ), $edit_in_cart_text );
 
 			$variation_html =
-			'<div class="wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
+			'<div id="wc-fgc-item-' . esc_attr( $cart_item_key ) . '" class="wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
 				<a href="javascript:void(0)" class="wc-fgc-edit-var-link wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .' "data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>

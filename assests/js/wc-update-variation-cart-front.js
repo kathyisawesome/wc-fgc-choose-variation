@@ -41,9 +41,13 @@ jQuery(document).ready(function($){
 	 * 
 	 * Only when variation hasn't been selected
 	 */
-	var observer = new MutationObserver( function(mutations) {
-		if ( $( '.wc-fgc-show-edit' ).length > 0 ) {
-			alert("yup");
+	var observer = new MutationObserver( function( mutations ) {
+		// Check if window is already opened.
+		let $editRow = $( '.wc_fgc_cart' ).closest( 'tr.new_row' );
+
+		// If variation to edit is only 1, and the edit row is not yet opened.
+		if ( $( '.wc-fgc-show-edit' ).length == 1  && $editRow.length == 0 ) {
+			console.log("yup");
 			$( '.wc_fgc_updatenow' ).trigger( 'click' );
 			// observer.disconnect();
 		}
