@@ -39,7 +39,7 @@
 /*--Cart Page--*/
 .wc-fgc-cart-update a {
   text-decoration: none;
-  display: block ruby;
+  display: block;
   opacity: 1;
 }
 
