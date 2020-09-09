@@ -3,7 +3,7 @@
  * Plugin Name: WC Free Gift Coupons -  Update Variation Cart 3rd party version (origo version)
  * Description: Update variable product if added as a Free Gift.- to replace the original
  * Version: 2.0.0
- * Author: Precious Omonze (Meeeeee)
+ * Author: Kathy Darling, Precious Omonze
  * Requires at least: 4.4
  * Tested up to: 5.3.0
  * WC requires at least: 3.1.0
@@ -29,6 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since   1.0.0
  */
 function _wc_fcg_update_variation_cart() {
+	// Defined this way cause it'll later be integrated into core plugin, so these are temporary.
 	if ( ! defined( '_WC_FGC_PLUGIN_NAME' ) ) {
 		define( '_WC_FGC_PLUGIN_NAME', plugin_basename( __FILE__ ) );
 	}
