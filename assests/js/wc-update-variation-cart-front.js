@@ -50,7 +50,6 @@ jQuery(document).ready(function($){
 		if ( $editBtnParent.length == 1  && $editRow.length == 0 ) {
 			// Get particular id so we do not trigger multiple.
 			let btnParentIdAttr = $editBtnParent.attr( 'id' );
-			console.log("yup");
 			$( `#${btnParentIdAttr} .wc_fgc_updatenow` ).trigger( 'click' );
 			// observer.disconnect();
 		}
@@ -65,9 +64,9 @@ jQuery(document).ready(function($){
 		let cartItemIdAttr = $( this ).closest( '.wc-fgc-cart-update' ).attr( 'id' );
 		let cartItemId     = cartItemIdAttr.split( '_' )[1];
 
-		// Check if window is already opened.
 		let $editRow = $( 'tr#wc-fgc-new-row-' + cartItemId );
-		console.log($editRow.length);
+
+		// Check if window is already opened.
 		if ( $editRow.length > 0 ) {
 			// toggle :) better UX.
 			$editRow.fadeToggle( 'slow' );
@@ -243,12 +242,19 @@ jQuery(document).ready(function($){
 	 	$(".wc-fgc-stock-error").hide();
 	 });
 
-	 $(document).on("click",".single_add_to_cart_button",function(e){
+	 $(document).on("click",".single_add_to_cart_button",function( e ){
 
-	 	e.preventDefault();
-	 	if ( $(this).hasClass('disabled') ) {
-	 		return;
-	 	}
+		 e.preventDefault();
+		 if ( $( this ).is('.disabled') ) {
+
+			if ( $( this ).is('.wc-variation-is-unavailable') ) {
+				window.alert( wc_add_to_cart_variation_params.i18n_unavailable_text );
+		   } else if ( $( this ).is('.wc-variation-selection-needed') ) {
+				window.alert( wc_add_to_cart_variation_params.i18n_make_a_selection_text ); 
+		   }
+		   return;
+
+		}
 
 		block( $( '.wc_fgc_cart' ) );
 
@@ -365,7 +371,7 @@ function wc_fgc_image_change_on_variation_popup()
 		$form.on( 'reload_product_variations', { variationForm: this }, this.onReload );
 		$form.on( 'hide_variation', { variationForm: this }, this.onHide );
 		$form.on( 'show_variation', { variationForm: this }, this.onShow );
-		$form.on( 'click', '.single_add_to_cart_button', { variationForm: this }, this.onAddToCart );
+		// $form.on( 'click', '.single_add_to_cart_button', { variationForm: this }, this.onAddToCart );
 		$form.on( 'reset_data', { variationForm: this }, this.onResetDisplayedVariation );
 		$form.on( 'reset_image', { variationForm: this }, this.onResetImage );
 		$form.on( 'change', '.variations select', { variationForm: this }, this.onChange );
@@ -423,19 +429,7 @@ function wc_fgc_image_change_on_variation_popup()
 	/**
 	 * When the cart button is pressed.
 	 */
-	 VariationForm.prototype.onAddToCart = function( event ) {
-	 	if ( $( this ).is('.disabled') ) {
-	 		event.preventDefault();
-			console.log($(this));
-			if ( $( this ).is('.wc-variation-is-unavailable') ) {
-	 			window.alert( wc_add_to_cart_variation_params.i18n_unavailable_text );
-			} else if ( $( this ).is('.wc-variation-selection-needed') ) {
-	 			window.alert( wc_add_to_cart_variation_params.i18n_make_a_selection_text );
-				 console.log('unavailable clicked needed');
-	 		 
-			}
-	 	}
-	 };
+	// VariationForm.prototype.onAddToCart = function( event ) { };
 
 	/**
 	 * When displayed variation data is reset.

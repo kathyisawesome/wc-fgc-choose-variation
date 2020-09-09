@@ -39,16 +39,15 @@
 /*--Cart Page--*/
 .wc-fgc-cart-update a {
   text-decoration: none;
-  display: inline-block;
-  vertical-align: middle;
+  display: block ruby;
   opacity: 1;
 }
 
 .wc-fgc-edit-var-link{
+  text-align: center;
   border: 1px solid;
-  padding: 5px 7px;
+  padding: 4px 2px;
   border-radius: 100px;
-  margin: 20px 0px;
   position: relative;
   top: 10px;
   text-decoration: none !important;
@@ -64,10 +63,6 @@
 }
 .wc-fgc-edit-var-link:hover{
   border-radius: 10px;
-}
-
-.wc-fgc-cart-update:hover a {
-  opacity: 1 !important;
 }
 
 /*error message*/
