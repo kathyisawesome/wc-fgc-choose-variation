@@ -46,11 +46,6 @@ class WC_FGC_Update_Variation_Cart {
 		// Enqueue required js and css.
 		add_filter( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_cart_script' ) );
 
-		// Remove owl carousel
-		if( function_exists( 'is_cart' ) && is_cart() ) {
-			add_filter("woocommerce_single_product_carousel_options", "product_carousel_options", 10 );
-		}
-
 		// Add edit option on the cart page.
 		add_action( 'woocommerce_after_cart_item_name', array( __CLASS__, 'variation_update_data' ), 1, 2 );
 
@@ -90,7 +85,7 @@ class WC_FGC_Update_Variation_Cart {
 						'animation'      => 'slide',
 						'smoothHeight'   => false,
 						'directionNav'   => false,
-						'controlNav'     => 'thumbnails',
+						'controlNav'     => false, // set to false
 						'slideshow'      => false,
 						'animationSpeed' => 500,
 						'animationLoop'  => false, // Breaks photoswipe pagination if true.
@@ -112,18 +107,6 @@ class WC_FGC_Update_Variation_Cart {
 			wp_localize_script( self::$name . '_js', 'wc_fgc_params', $wc_fgc_trans_array );
 		}
 
-	}
-
-	/**
-	 * Remove slider for the updation
-	 *
-	 * @since 1.0.0
-	 * @name product_carousel_options
-	 */
-	public static function product_carousel_options( $options ) {
-		$options['controlNav'] = false;
-		var_dump( $options);
-		return $options;
 	}
 
 	/**
