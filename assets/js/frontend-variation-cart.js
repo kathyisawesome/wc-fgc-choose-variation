@@ -61,6 +61,9 @@ jQuery(document).ready(function($){
 	var ajax_url = wc_fgc_params.ajax_url;
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
+		// hide button
+		$( this ).hide();
+
 		let cartItemIdAttr = $( this ).closest( '.wc-fgc-cart-update' ).attr( 'id' );
 		let cartItemId     = cartItemIdAttr.split( '_' )[1];
 
@@ -69,7 +72,7 @@ jQuery(document).ready(function($){
 		// Check if window is already opened.
 		if ( $editRow.length > 0 ) {
 			// toggle :) better UX.
-			$editRow.fadeToggle( 'slow' );
+			$editRow.fadeIn( 'slow' );
 			return;
 		}
 
@@ -325,7 +328,7 @@ jQuery(document).ready(function($){
 	 	$('.wc_fgc_updatenow').show();
 	 });
 
-	});
+});
 
 function wc_fgc_image_change_on_variation_popup()
 {

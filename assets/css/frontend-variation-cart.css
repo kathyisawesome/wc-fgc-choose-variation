@@ -37,12 +37,8 @@
 }
 
 /*--Cart Page--*/
-.wc-fgc-cart-update a {
-  text-decoration: none;
-  display: block;
-  opacity: 1;
-}
 
+/*
 .wc-fgc-edit-var-link{
   text-align: center;
   border: 1px solid;
@@ -54,10 +50,10 @@
   font-size: 18.5px;
   transition: ease-in-out all .2s;
 }
-
+*/
 .wc-fgc-edit-var-link .dashicons{
   vertical-align: middle;
-  margin-left: 4px;
+  //margin-left: 4px;
   position: relative;
   top: -3px;
 }

@@ -73,7 +73,7 @@ class WC_FGC_Update_Variation_Cart {
 		// check is cart page or not.
 		if ( is_cart() ) {
 			// Enqueue js.
-			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assests/js/frontend-variation-cart.js', array( 'jquery', 'flexslider' ), self::$version, false );
+			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart.js', array( 'jquery', 'flexslider' ), self::$version, false );
 
 			$wc_fgc_trans_array = array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ), // ajax url.
@@ -101,7 +101,7 @@ class WC_FGC_Update_Variation_Cart {
 			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
 			// Enqueue needed css for it.
-			wp_enqueue_style( self::$name . '_css', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assests/css/frontend-variation-cart.css', array(), self::$version, 'all' );
+			wp_enqueue_style( self::$name . '_css', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/css/frontend-variation-cart.css', array(), self::$version, 'all' );
 
 			// localize array here.
 			wp_localize_script( self::$name . '_js', 'wc_fgc_params', $wc_fgc_trans_array );
@@ -144,7 +144,7 @@ class WC_FGC_Update_Variation_Cart {
 
 			$variation_html =
 			'<div id="wc-fgc-item_' . esc_attr( $cart_item_key ) . '" class="wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
-				<a href="javascript:void(0)" class="wc-fgc-edit-var-link wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .'" data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
+				<a href="javascript:void(0)" class="wc-fgc-edit-var-link button wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .'" data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
 			</div>';
