@@ -2,7 +2,7 @@
 .wc_fgc_cart {
   clear: both;
   background: rgba(254,254,254,0.2);
-  box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 3px rgba(0,0,0,0.1);
   padding: 10px;
 }
 .onsale {
@@ -36,31 +36,28 @@
   display: inline-block !important;
 }
 
+.wc-fgc-close-section{
+  display: block;
+  text-align: right;
+}
+.wc-fgc-close-btn{
+  text-decoration: none;
+}
 /*--Cart Page--*/
 
-/*
+
 .wc-fgc-edit-var-link{
-  text-align: center;
-  border: 1px solid;
-  padding: 4px 2px;
-  border-radius: 100px;
-  position: relative;
-  top: 10px;
-  text-decoration: none !important;
+  margin-top: 20px;
   font-size: 18.5px;
   transition: ease-in-out all .2s;
 }
-*/
+
 .wc-fgc-edit-var-link .dashicons{
   vertical-align: middle;
-  //margin-left: 4px;
+  margin-left: 4px;
   position: relative;
   top: -3px;
 }
-.wc-fgc-edit-var-link:hover{
-  border-radius: 10px;
-}
-
 /*error message*/
 .wc-fgc-stock-error {
   display: none;
@@ -74,24 +71,6 @@
   cursor: pointer;
 }
 
-/* todo: use SASS mixin 
-.wc_fgc_updatenow::before {
-  font-family: 'WooCommerce';
-  speak: none;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  margin: 0;
-  text-indent: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
- /* content: "\e603"; what is the woo content code for the edit icon? 
-} */
 
 #wc-fgc-variation-container
 table.variations {
