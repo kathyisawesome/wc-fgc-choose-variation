@@ -143,7 +143,7 @@ class WC_FGC_Update_Variation_Cart {
 			$edit_in_cart_link_content = sprintf( __( '<small>%1$s<span class="dashicons dashicons-after dashicons-edit"></span></small>', 'edit in cart text', 'wc_fgc_update_variation' ), $edit_in_cart_text );
 
 			$variation_html =
-			'<div id="wc-fgc-item_' . esc_attr( $cart_item_key ) . '" class="wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
+			'<div id="wc-fgc-item_' . esc_attr( $cart_item_key ) . '" class="actions wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
 				<a href="javascript:void(0)" class="wc-fgc-edit-var-link button wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .'" data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
@@ -196,7 +196,11 @@ class WC_FGC_Update_Variation_Cart {
 		do_action( 'wc_fgc_before_product_html' );
 		?>
 		<div class="wc_fgc_cart" data-title="<?php echo esc_attr( $product->add_to_cart_text() ); ?>" id="wc_fgc_<?php echo $_cart_item_key; ?>">
-
+			<section class="wc-fgc-close-section">
+				<a href="javascript:void(0)" class="wc-fgc-close-btn">
+					<span class="dashicons dashicons-after dashicons-no-alt"></span>
+				</a>
+			</section>
 			<div class="wc-fgc-stock-error" style="display: none;"></div>
 
 			<input type="hidden" id="wc_fgc_prevproid" value="<? echo $variation_id; ?>">
