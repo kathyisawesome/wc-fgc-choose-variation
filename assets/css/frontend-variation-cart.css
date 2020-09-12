@@ -41,7 +41,10 @@
   text-align: right;
 }
 .wc-fgc-close-btn{
-  text-decoration: none;
+  text-decoration: none !important;
+}
+.wc-fgc-close-btn .dashicons{
+  font-size: 25px;
 }
 /*--Cart Page--*/
 

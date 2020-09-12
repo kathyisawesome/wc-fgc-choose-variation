@@ -91,9 +91,11 @@ class WC_FGC_Update_Variation_Cart {
 						'animationLoop'  => false, // Breaks photoswipe pagination if true.
 					)
 				),
-				'zoom_enabled'       => get_theme_support( 'wc-product-gallery-zoom' ),
-				'photoswipe_enabled' => get_theme_support( 'wc-product-gallery-lightbox' ),
-				'flexslider_enabled' => get_theme_support( 'wc-product-gallery-slider' ),
+				'zoom_enabled'                => get_theme_support( 'wc-product-gallery-zoom' ),
+				'photoswipe_enabled'          => get_theme_support( 'wc-product-gallery-lightbox' ),
+				'flexslider_enabled'          => get_theme_support( 'wc-product-gallery-slider' ),
+				'server_error'                => __( '🤕 Sorry, an error occured, please try again later.', 'wc_free_gift_coupons'),
+				'error_make_a_selection_text' => __( 'Please select some product options', 'wc_free_gift_coupons' ),
 
 			);
 
@@ -131,16 +133,16 @@ class WC_FGC_Update_Variation_Cart {
 
 			// Check if no variation selected, so as to do something cool :)
 			if ( $variation_id > 0 ) {
-				$edit_in_cart_text = _x( 'Change options', 'edit in cart link text', 'wc_fgc_update_variation' );
+				$edit_in_cart_text = _x( 'Change options', 'edit in cart link text', 'wc_free_gift_coupons' );
 				$var_edit_trigger_class = '';
 			}
 			else {
-				$edit_in_cart_text = _x( 'Choose options', 'edit in cart link text', 'wc_fgc_update_variation' );
+				$edit_in_cart_text = _x( 'Choose options', 'edit in cart link text', 'wc_free_gift_coupons' );
 				$var_edit_trigger_class = ' wc-fgc-show-edit';
 			}
 
 			// Translators: %1$s text for edit price link.
-			$edit_in_cart_link_content = sprintf( __( '<small>%1$s<span class="dashicons dashicons-after dashicons-edit"></span></small>', 'edit in cart text', 'wc_fgc_update_variation' ), $edit_in_cart_text );
+			$edit_in_cart_link_content = sprintf( __( '<small>%1$s<span class="dashicons dashicons-after dashicons-edit"></span></small>', 'edit in cart text', 'wc_free_gift_coupons' ), $edit_in_cart_text );
 
 			$variation_html =
 			'<div id="wc-fgc-item_' . esc_attr( $cart_item_key ) . '" class="actions wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">

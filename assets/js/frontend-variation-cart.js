@@ -142,7 +142,10 @@ jQuery(document).ready(function($){
 				complete:function( response, statusText ) {
 					// If 200 wasn't returned.
 					if( 'success' !== statusText ){
-						alert( '🤕 Sorry, an error occured, please try again later.' );
+						alert( wc_fgc_params.server_error );
+
+						// Show button again :)
+						$( this ).fadeIn();
 					}
 					unblock( $( '.woocommerce-cart-form' ) );
 				}
@@ -252,7 +255,7 @@ jQuery(document).ready(function($){
 			if ( $( this ).is('.wc-variation-is-unavailable') ) {
 				window.alert( wc_add_to_cart_variation_params.i18n_unavailable_text );
 		   } else if ( $( this ).is('.wc-variation-selection-needed') ) {
-				window.alert( wc_add_to_cart_variation_params.i18n_make_a_selection_text ); 
+				window.alert( wc_fgc_params.error_make_a_selection_text ); 
 		   }
 		   return;
 
