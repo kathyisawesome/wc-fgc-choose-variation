@@ -54,10 +54,10 @@ jQuery(document).ready(function($){
 			// observer.disconnect();
 		}
 	 });
-	observer.observe( document, {attributes: false, childList: true, characterData: false, subtree:true} );
+	//observer.observe( document, {attributes: false, childList: true, characterData: false, subtree:true} );
 
 
-	var ajax_url = wc_fgc_params.ajax_url;
+	var ajax_url = wc_fgc_var_cart_params.ajax_url;
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
 		// hide button
@@ -93,7 +93,7 @@ jQuery(document).ready(function($){
 			headers : { "cache-control": "no-cache" },
 			data: {
 				'action': 'wc_fgc_get_product_html',
-				'nonce' : wc_fgc_params.wc_fgc_nonce,
+				'nonce' : wc_fgc_var_cart_params.wc_fgc_nonce,
 				'product_id': proID,
 				'variation_id' : variationID,
 				'cart_item_key' : cart_item_key,
@@ -108,10 +108,10 @@ jQuery(document).ready(function($){
  					current_item_product.after('<tr class="wc-fgc-new-row" id="wc-fgc-new-row_'+cart_item_key+'"><td colspan="6">'+response+'</td></tr>');
 				}
 
-				// Custom Code
+				// Run variation saga.
 				$( '.woocommerce-product-gallery' ).each( function() {
-					$( this ).wc_product_gallery();	
-				} );	
+					$( this ).wc_product_gallery( wc_fgc_var_cart_params );	
+				});	
 				$form = $('#wc_fgc_'+cart_item_key).find( '.variations_form' );
 
 				if ($form) {
@@ -132,17 +132,27 @@ jQuery(document).ready(function($){
 					$($cartDiv).find('.single_add_to_cart_button').html('Update');
 					//$($cartDiv).find('.single_add_to_cart_button').attr('disabled','disabled');
 					$("#wc-fgc-variation-container").show();
+				//Alter scroll nature
+				$.scroll_to_notices=function( scrollElement ) {
+					var offset = 300;
+					if ( scrollElement.length ) {
+						$( 'html, body' ).animate( {
+							 scrollTop: ( scrollElement.offset().top-offset )
+						 }, 5000 );
+					}
+				};
 
 					// scroll to the section, cool UX 8-)
-					$( 'body,html' ).animate( {
-						scrollTop: ( $( '#wc_fgc_' + cart_item_key ).offset().top - 100 )
-					}, 800 );
-
+					//$.scroll_to_notices( $( '#wc_fgc_' + cart_item_key ) );
+					//$( 'body,html' ).animate( {
+					//	scrollTop: ( $( '#wc_fgc_' + cart_item_key ).offset().top - 100 )
+					//}, 100 );
+	
 				},
 				complete:function( response, statusText ) {
 					// If 200 wasn't returned.
 					if( 'success' !== statusText ){
-						alert( wc_fgc_params.server_error );
+						alert( wc_fgc_var_cart_params.server_error );
 
 						// Show button again :)
 						$( this ).fadeIn();
@@ -158,87 +168,6 @@ jQuery(document).ready(function($){
 	* single page flexslider
 	*
 	*/
-	var ProductGallery = function( $target, args ) {
-		this.$target = $target;
-		
-		this.$images = $( '.woocommerce-product-gallery__image', $target );
-
-		
-		// No images? Abort.
-		if ( 0 === this.$images.length ) {
-			this.$target.css( 'opacity', 1 );
-			return;
-		}
-		// Make this object available.
-		$target.data( 'product_gallery', this );
-
-		// Pick functionality to initialize...
-		this.flexslider_enabled = $.isFunction( $.fn.flexslider ) && wc_fgc_params.flexslider_enabled;
-		
-		// ...also taking args into account.
-		if ( args ) {
-			this.flexslider_enabled = false === args.flexslider_enabled ? false : this.flexslider_enabled;
-			this.zoom_enabled       = false === args.zoom_enabled ? false : this.zoom_enabled;
-			this.photoswipe_enabled = false === args.photoswipe_enabled ? false : this.photoswipe_enabled;
-		}
-
-		// Bind functions to this.
-		this.initFlexslider       = this.initFlexslider.bind( this );
-		this.onResetSlidePosition = this.onResetSlidePosition.bind( this );
-
-		if ( this.flexslider_enabled ) {
-			this.initFlexslider();
-			$target.on( 'woocommerce_gallery_reset_slide_position', this.onResetSlidePosition );
-		} else {
-			this.$target.css( 'opacity', 1 );
-		}
-
-		
-	};
-	ProductGallery.prototype.initFlexslider = function() {
-		var images  = this.$images,
-		$target = this.$target;
-
-		$target.flexslider( {
-			selector:       '.woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image',
-			animation:      wc_fgc_params.flexslider.animation,
-			smoothHeight:   wc_fgc_params.flexslider.smoothHeight,
-			directionNav:   wc_fgc_params.flexslider.directionNav,
-			controlNav:     wc_fgc_params.flexslider.controlNav,
-			slideshow:      wc_fgc_params.flexslider.slideshow,
-			animationSpeed: wc_fgc_params.flexslider.animationSpeed,
-			animationLoop:  wc_fgc_params.flexslider.animationLoop, // Breaks photoswipe pagination if true.
-			start: function() {
-				$target.css( 'opacity', 1 );
-
-				var largest_height = 0;
-
-				images.each( function() {
-					var height = $( this ).height();
-
-					if ( height > largest_height ) {
-						largest_height = height;
-					}
-				} );
-
-				images.each( function() {
-					$( this ).css( 'min-height', largest_height );
-				} );
-			}
-		} );
-	};
-	/**
-	 * Reset slide position to 0.
-	 */
-	 ProductGallery.prototype.onResetSlidePosition = function() {
-	 	this.$target.flexslider( 0 );
-	 };
-
-
-	 $.fn.wc_product_gallery = function( args ) {
-	 	new ProductGallery( this, args );
-	 	return this;
-	 };
 
 	 $(document).on('click','.reset_variations',function(){
 
@@ -253,9 +182,9 @@ jQuery(document).ready(function($){
 		 if ( $( this ).is('.disabled') ) {
 
 			if ( $( this ).is('.wc-variation-is-unavailable') ) {
-				window.alert( wc_add_to_cart_variation_params.i18n_unavailable_text );
+				window.alert( "weird"+wc_add_to_cart_variation_params.i18n_unavailable_text );
 		   } else if ( $( this ).is('.wc-variation-selection-needed') ) {
-				window.alert( wc_fgc_params.error_make_a_selection_text ); 
+				window.alert( "noway"+wc_fgc_var_cart_params.error_make_a_selection_text ); 
 		   }
 		   return;
 
@@ -298,7 +227,7 @@ jQuery(document).ready(function($){
 	 			'variation_id':variation_id,
 	 			'variation':variation,
 	 			'cart_item_key':cart_item_key,
-	 			'nonce' : wc_fgc_params.wc_fgc_nonce,
+	 			'nonce' : wc_fgc_var_cart_params.wc_fgc_nonce,
 	 		},
 	 		success:function( response, statusText, xhr ) {
 				// console.log({response, statusText, xhr});
@@ -336,4 +265,3 @@ jQuery(document).ready(function($){
 	 });
 
 });
-

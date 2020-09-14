@@ -1,32 +1,24 @@
-/*cusom css*/
+/**
+ * Style to handle the variation selection in cart.
+ */
 .wc_fgc_cart {
-  clear: both;
-  background: rgba(254,254,254,0.2);
-  box-shadow: 0px 0px 3px rgba(0,0,0,0.1);
+ /* background: rgba(254,254,254,0.2);
+  box-shadow: 0px 0px 3px rgba(0,0,0,0.1); */
   padding: 10px;
+}
+.wc_fgc_cart:after {
+  clear: both;
+}
+/* Prevent the excess height
+ * when transiting from web to mobile view
+ */
+.wc_fgc_cart .flex-viewport {
+  height: auto !important;
 }
 .onsale {
     position: relative;
 }
-/*
-.wc-fgc-product-loader {
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  max-width: 700px;
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  top: 0px;
-  display: none;
-}
 
-.wc-fgc-product-loader img {
-  display: block;
-  margin: 40% auto 0;
-  width: 90px;
-}
-*/
 .wc-fgc-product-detail-container .type-product > div {
   display: inline-block !important;
   vertical-align: top !important;
@@ -46,12 +38,11 @@
 .wc-fgc-close-btn .dashicons{
   font-size: 25px;
 }
+
 /*--Cart Page--*/
 
-
-.wc-fgc-edit-var-link{
+.wc-fgc-edit-var-link,.wc-fgc-edit-var-link:link{
   margin-top: 20px;
-  font-size: 18.5px;
   transition: ease-in-out all .2s;
 }
 

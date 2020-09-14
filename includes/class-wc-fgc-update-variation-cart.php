@@ -73,8 +73,12 @@ class WC_FGC_Update_Variation_Cart {
 		// check is cart page or not.
 		if ( is_cart() ) {
 			$min_ext = ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min' );
+
+			// Enqueue default js for woocommerce.
+			wp_enqueue_script( 'wc-add-to-cart-variation' );
+
 			// Enqueue js.
-			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart' . $min_ext . '.js', array( 'jquery', 'flexslider' ), self::$version, false );
+			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart' . $min_ext . '.js', array( 'jquery', 'flexslider', 'wc-single-product' ), self::$version, false );
 
 			$wc_fgc_trans_array = array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ), // ajax url.
@@ -100,14 +104,11 @@ class WC_FGC_Update_Variation_Cart {
 
 			);
 
-			// Enqueue default js for woocommerce.
-			wp_enqueue_script( 'wc-add-to-cart-variation' );
-
 			// Enqueue needed css for it.
 			wp_enqueue_style( self::$name . '_style', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/css/frontend-variation-cart' . $min_ext . '.css', array(), self::$version, 'all' );
 
 			// localize array here.
-			wp_localize_script( self::$name . '_js', 'wc_fgc_params', $wc_fgc_trans_array );
+			wp_localize_script( self::$name . '_js', 'wc_fgc_var_cart_params', $wc_fgc_trans_array );
 		}
 
 	}
