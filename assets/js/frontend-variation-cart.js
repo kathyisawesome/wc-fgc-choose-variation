@@ -1,5 +1,16 @@
 jQuery(document).ready(function($){
 
+
+	//Alter scroll nature
+$.scroll_to_notices=function( scrollElement ) {
+	var offset = 300;
+	if ( scrollElement.length ) {
+		$( 'html, body' ).animate( {
+			 scrollTop: ( scrollElement.offset().top-offset )
+		 }, 1000 );
+	}
+};
+
 	/**
 	 * Check if a node is blocked for processing.
 	 *
@@ -61,8 +72,9 @@ jQuery(document).ready(function($){
 
 	$(document).on('click', '.wc_fgc_updatenow', function() {
 		// hide button
-		$( this ).fadeOut();
-
+		let $cartItemBtn = $( this );
+		$cartItemBtn.fadeOut();
+		
 		let cartItemIdAttr = $( this ).closest( '.wc-fgc-cart-update' ).attr( 'id' );
 		let cartItemId     = cartItemIdAttr.split( '_' )[1];
 
@@ -111,10 +123,10 @@ jQuery(document).ready(function($){
 				// Run variation saga.
 				$( '.woocommerce-product-gallery' ).each( function() {
 					$( this ).wc_product_gallery( wc_fgc_var_cart_params );	
-				});	
+				});
 				$form = $('#wc_fgc_'+cart_item_key).find( '.variations_form' );
 
-				if ($form) {
+				if ( $form)  {
 					$form.wc_variation_form();
 				}
 
@@ -132,21 +144,12 @@ jQuery(document).ready(function($){
 					$($cartDiv).find('.single_add_to_cart_button').html('Update');
 					//$($cartDiv).find('.single_add_to_cart_button').attr('disabled','disabled');
 					$("#wc-fgc-variation-container").show();
-				//Alter scroll nature
-				$.scroll_to_notices=function( scrollElement ) {
-					var offset = 300;
-					if ( scrollElement.length ) {
-						$( 'html, body' ).animate( {
-							 scrollTop: ( scrollElement.offset().top-offset )
-						 }, 5000 );
-					}
-				};
-
+				
 					// scroll to the section, cool UX 8-)
-					//$.scroll_to_notices( $( '#wc_fgc_' + cart_item_key ) );
+					$.scroll_to_notices( $( '#wc_fgc_' + cart_item_key ) );
 					//$( 'body,html' ).animate( {
 					//	scrollTop: ( $( '#wc_fgc_' + cart_item_key ).offset().top - 100 )
-					//}, 100 );
+					//}, 800 );
 	
 				},
 				complete:function( response, statusText ) {
@@ -155,7 +158,7 @@ jQuery(document).ready(function($){
 						alert( wc_fgc_var_cart_params.server_error );
 
 						// Show button again :)
-						$( this ).fadeIn();
+						$cartItemBtn.fadeIn();
 					}
 					unblock( $( '.woocommerce-cart-form' ) );
 				}
