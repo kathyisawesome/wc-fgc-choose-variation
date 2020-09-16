@@ -65,7 +65,7 @@ $.scroll_to_notices=function( scrollElement ) {
 			// observer.disconnect();
 		}
 	 });
-	//observer.observe( document, {attributes: false, childList: true, characterData: false, subtree:true} );
+	observer.observe( document, {attributes: false, childList: true, characterData: false, subtree:true} );
 
 
 	var ajax_url = wc_fgc_var_cart_params.ajax_url;
@@ -181,16 +181,11 @@ $.scroll_to_notices=function( scrollElement ) {
 
 	 $(document).on("click",".single_add_to_cart_button",function( e ){
 
-		 e.preventDefault();
-		 if ( $( this ).is('.disabled') ) {
-
-			if ( $( this ).is('.wc-variation-is-unavailable') ) {
-				window.alert( "weird"+wc_add_to_cart_variation_params.i18n_unavailable_text );
-		   } else if ( $( this ).is('.wc-variation-selection-needed') ) {
-				window.alert( "noway"+wc_fgc_var_cart_params.error_make_a_selection_text ); 
-		   }
+		e.preventDefault();
+		 
+		// Don't do anything if still disabled, parent file gats our back :).
+		if ( $( this ).is( '.disabled' ) ) {
 		   return;
-
 		}
 
 		block( $( '.wc_fgc_cart' ) );

@@ -72,11 +72,15 @@ class WC_FGC_Update_Variation_Cart {
 
 		// check is cart page or not.
 		if ( is_cart() ) {
+			// Hook
+			add_filter( 'woocommerce_get_script_data', array( __CLASS__, 'change_variation_select_alert' ), 10, 2 );
+
 			$min_ext = ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min' );
 
 			// Enqueue default js for woocommerce.
 			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
+			//Alter the add to cart variation text
 			// Enqueue js.
 			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart' . $min_ext . '.js', array( 'jquery', 'flexslider', 'wc-single-product' ), self::$version, false );
 
@@ -100,8 +104,6 @@ class WC_FGC_Update_Variation_Cart {
 				'photoswipe_enabled'          => get_theme_support( 'wc-product-gallery-lightbox' ),
 				'flexslider_enabled'          => get_theme_support( 'wc-product-gallery-slider' ),
 				'server_error'                => __( '🤕 Sorry, an error occured, please try again later.', 'wc_free_gift_coupons'),
-				'error_make_a_selection_text' => __( 'Please select some product options', 'wc_free_gift_coupons' ),
-
 			);
 
 			// Enqueue needed css for it.
@@ -111,6 +113,23 @@ class WC_FGC_Update_Variation_Cart {
 			wp_localize_script( self::$name . '_js', 'wc_fgc_var_cart_params', $wc_fgc_trans_array );
 		}
 
+	}
+
+	/**
+	 * Change alert text for Variation.
+	 * 
+	 * Adjust selection alert text for variation popup.
+	 * 
+	 * @hook woocommerce_get_script_data
+	 * @param array $params
+	 * @param string $handle
+	 * @return $array
+	 */
+	public static function change_variation_select_alert( $params, $handle ) {
+		if ('wc-add-to-cart-variation' === $handle ) {
+			$params['i18n_make_a_selection_text'] = __( '😐 Please select some product options.', 'wc_free_gift_coupons' );
+		}
+		return $params;
 	}
 
 	/**
