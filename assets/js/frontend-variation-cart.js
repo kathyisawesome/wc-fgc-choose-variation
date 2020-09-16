@@ -1,16 +1,5 @@
 jQuery(document).ready(function($){
 
-
-	//Alter scroll nature
-$.scroll_to_notices=function( scrollElement ) {
-	var offset = 300;
-	if ( scrollElement.length ) {
-		$( 'html, body' ).animate( {
-			 scrollTop: ( scrollElement.offset().top-offset )
-		 }, 1000 );
-	}
-};
-
 	/**
 	 * Check if a node is blocked for processing.
 	 *
@@ -48,29 +37,70 @@ $.scroll_to_notices=function( scrollElement ) {
 	};
 
 	/**
-	 * Trigger wc_fgc_updatenow click.
+	 * Helps in seeking an automation opening.
 	 * 
-	 * Only when variation hasn't been selected
+	 * If an variation item is not selected, and its the
+	 * only one not selected, it helps auto open it for the user.
+	 * 
+	 * @param {object} node
+	 * @return {bool} used this to be able to manipulate functions calling ir
 	 */
-	var observer = new MutationObserver( function( mutations ) {
-		// Check if window is already opened.
+	$.fn.wc_fgc_find_auto_variation_open = function( node ) {
 		let $editRow = $( '.wc_fgc_cart' ).closest( 'tr.wc-fgc-new-row' );
 		let $editBtnParent = $( '.wc-fgc-show-edit' );
 
-		// If variation to edit is only 1, and the edit row is not yet opened.
-		if ( $editBtnParent.length == 1  && $editRow.length == 0 ) {
-			// Get particular id so we do not trigger multiple.
-			let btnParentIdAttr = $editBtnParent.attr( 'id' );
-			$( `#${btnParentIdAttr} .wc_fgc_updatenow` ).trigger( 'click' );
-			// observer.disconnect();
+		if ( $( node ).find( $editBtnParent ).length > 0 ) {
+
+			// If variation to edit is only 1, and the edit row is not yet opened.
+			if ( $editBtnParent.length == 1  && $editRow.length == 0 ) {
+
+				// Get particular id so we do not trigger multiple.
+				let btnParentIdAttr = $editBtnParent.attr( 'id' );
+				$( `#${btnParentIdAttr} .wc_fgc_updatenow` ).trigger( 'click' );
+				// observer.disconnect();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Observer
+	 * 
+	 * Trigger wc_fgc_updatenow click.
+	 * Only when variation hasn't been selected
+	 */
+	$.fn.wc_fgc_observer = new MutationObserver( function( mutations ) {
+		// loop through and only check for childList type.
+		for ( let mutation of mutations ){
+
+			// Not childList, abeg we have no business here.
+			if( 'childList' !== mutation.type ) {
+				continue;
+			}
+
+			for ( let node of mutation.addedNodes ) {
+				// Did you find any element worth opening?
+				if ( $( this ).wc_fgc_find_auto_variation_open( node ) == true ) {
+					break;
+				}
+			}
 		}
 	 });
-	observer.observe( document, {attributes: false, childList: true, characterData: false, subtree:true} );
 
-
+	let observerOptions = { attributes: false, childList: true, characterData: false, subtree: true };
+	let observeTarget = document;
+	$( this ).wc_fgc_observer.observe( observeTarget, observerOptions );
+	
 	var ajax_url = wc_fgc_var_cart_params.ajax_url;
 
-	$(document).on('click', '.wc_fgc_updatenow', function() {
+
+	/**
+	 * Show the variation editor
+	 */
+	$( document ).on( 'click', '.wc_fgc_updatenow', function() {
+	// $.fn.wc_fgc_open_variation_editor = function(){
+		//alert("messed up");
 		// hide button
 		let $cartItemBtn = $( this );
 		$cartItemBtn.fadeOut();
@@ -146,10 +176,10 @@ $.scroll_to_notices=function( scrollElement ) {
 					$("#wc-fgc-variation-container").show();
 				
 					// scroll to the section, cool UX 8-)
-					$.scroll_to_notices( $( '#wc_fgc_' + cart_item_key ) );
-					//$( 'body,html' ).animate( {
-					//	scrollTop: ( $( '#wc_fgc_' + cart_item_key ).offset().top - 100 )
-					//}, 800 );
+					//$.scroll_to_notices( $( '#wc_fgc_' + cart_item_key ) );
+					$( 'body,html' ).animate( {
+						scrollTop: ( $( '#wc_fgc_' + cart_item_key ).offset().top - 100 )
+					}, 1000 );
 	
 				},
 				complete:function( response, statusText ) {
@@ -249,7 +279,7 @@ $.scroll_to_notices=function( scrollElement ) {
 
 	 });
 
-	 $( document ).on( 'click', '.wc-fgc-close-btn', function() {
+	$( document ).on( 'click', '.wc-fgc-close-btn', function() {
 		let $cartContainer = $( this ).closest( '.wc-fgc-new-row' );
 		let cartItemIdAttr = $cartContainer.attr( 'id' );
 		let cartItemId     = cartItemIdAttr.split( '_' )[1];
@@ -260,6 +290,9 @@ $.scroll_to_notices=function( scrollElement ) {
 	 	// $("#wc-fgc-variation-container").html( ' ' );
 	 	// $("#wc-fgc-variation-container").hide();
 	 	$( `#${cartItemBtnId} .wc_fgc_updatenow` ).fadeIn( 'slow' );
-	 });
+	});
+
+	// Trigger auto opening if one variation FGC is found.
+	$( this ).wc_fgc_find_auto_variation_open( observeTarget );
 
 });
