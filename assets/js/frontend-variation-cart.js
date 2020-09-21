@@ -98,9 +98,9 @@ jQuery(document).ready(function($){
 	/**
 	 * Show the variation editor
 	 */
-	$( document ).on( 'click', '.wc_fgc_updatenow', function() {
-	// $.fn.wc_fgc_open_variation_editor = function(){
-		//alert("messed up");
+	$( document ).on( 'click', '.wc_fgc_updatenow', function( e ) {
+		e.preventDefault();
+
 		// hide button
 		let $cartItemBtn = $( this );
 		$cartItemBtn.fadeOut();

@@ -160,7 +160,7 @@ class WC_FGC_Update_Variation_Cart {
 
 			$variation_html =
 			'<div id="wc-fgc-item_' . esc_attr( $cart_item_key ) . '" class="actions wc-fgc-cart-update' . esc_attr( $var_edit_trigger_class ) . '">
-				<a href="javascript:void(0)" class="wc-fgc-edit-var-link button wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .'" data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
+				<a href="' . esc_url( get_permalink( $_product->get_id() ) ) . '" class="wc-fgc-edit-var-link button wc_fgc_updatenow" data-item_key="'. esc_attr( $cart_item_key ) .'" data-product_id="' . esc_attr( $product_id ) . '" data-variation_id="' . esc_attr( $variation_id ) . '">'
 				. $edit_in_cart_link_content .
 				'</a>
 			</div>';
