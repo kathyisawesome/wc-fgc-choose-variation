@@ -68,13 +68,13 @@ class WC_FGC_Update_Variation_Cart {
 		if ( is_cart() ) {
 			add_filter( 'woocommerce_get_script_data', array( __CLASS__, 'change_variation_select_alert' ), 10, 2 );
 
-			$min_ext = ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min' );
+			$suffix = ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min' );
 
 			// Enqueue default js for woocommerce.
 			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
 			// Enqueue js.
-			wp_enqueue_script( 'wc_fgc_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart' . $min_ext . '.js', array( 'jquery', 'flexslider', 'wc-single-product' ), self::$version, true );
+			wp_enqueue_script( 'wc_fgc_js', plugins_url( 'assets/js/frontend-variation-cart' . $suffix . '.js' , __DIR__ ), array( 'jquery', 'flexslider', 'wc-single-product' ), self::$version, true );
 
 			$wc_fgc_trans_array = array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ), // ajax url.
@@ -95,11 +95,12 @@ class WC_FGC_Update_Variation_Cart {
 				'zoom_enabled'                => get_theme_support( 'wc-product-gallery-zoom' ),
 				'photoswipe_enabled'          => get_theme_support( 'wc-product-gallery-lightbox' ),
 				'flexslider_enabled'          => get_theme_support( 'wc-product-gallery-slider' ),
-				'server_error'                => __( 'Sorry, an error occured, please try again later.', 'wc_free_gift_coupons'),
+				'server_error'                => __( 'Sorry, an error occured, please try again later.', 'wc_free_gift_coupons' ),
 			);
 
 			// Enqueue needed css for it.
-			wp_enqueue_style( 'wc_fgc_style', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/css/frontend-variation-cart' . $min_ext . '.css', array(), self::$version, 'all' );
+			// wp_enqueue_style( 'wc_fgc_style', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/css/frontend-variation-cart' . $suffix . '.css', array(), self::$version );
+			wp_enqueue_style( 'wc_fgc_style', plugins_url( 'assets/css/frontend-variation-cart' . $suffix . '.css' , __DIR__ ), array(), self::$version );
 
 			// Localize array here.
 			wp_localize_script( 'wc_fgc_js', 'wc_fgc_var_cart_params', $wc_fgc_trans_array );
