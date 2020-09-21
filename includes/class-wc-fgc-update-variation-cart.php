@@ -5,7 +5,7 @@
  * Handles all Variation Update related functionalities.
  *
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ if ( class_exists( 'WC_FGC_Update_Variation_Cart' ) ) {
  * @class WC_FGC_Update_Variation_Cart
  * @package Class
  * @author   Kevin
- * @version 1.0.0
+ * @version 3.0.0
  */
 class WC_FGC_Update_Variation_Cart {
 	/**
@@ -28,18 +28,12 @@ class WC_FGC_Update_Variation_Cart {
 	 *
 	 * @var string
 	 */
-	public static $version = '1.0.0';
-	/**
-	 * The plugin name
-	 *
-	 * @var string
-	 */
-	public static $name = 'wc_fgc';
+	public static $version = '3.0.0';
 
 	/**
 	 * WC Update Variation Cart constructor
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function init() {
 
@@ -66,13 +60,12 @@ class WC_FGC_Update_Variation_Cart {
 	 *
 	 * @name enqueue_cart_script
 	 * @param string $page   Name of the page.
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function enqueue_cart_script( $page ) {
 
-		// check is cart page or not.
+		// Check is cart page or not.
 		if ( is_cart() ) {
-			// Hook
 			add_filter( 'woocommerce_get_script_data', array( __CLASS__, 'change_variation_select_alert' ), 10, 2 );
 
 			$min_ext = ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min' );
@@ -80,9 +73,8 @@ class WC_FGC_Update_Variation_Cart {
 			// Enqueue default js for woocommerce.
 			wp_enqueue_script( 'wc-add-to-cart-variation' );
 
-			//Alter the add to cart variation text
 			// Enqueue js.
-			wp_enqueue_script( self::$name . '_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart' . $min_ext . '.js', array( 'jquery', 'flexslider', 'wc-single-product' ), self::$version, false );
+			wp_enqueue_script( 'wc_fgc_js', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/js/frontend-variation-cart' . $min_ext . '.js', array( 'jquery', 'flexslider', 'wc-single-product' ), self::$version, true );
 
 			$wc_fgc_trans_array = array(
 				'ajax_url'           => admin_url( 'admin-ajax.php' ), // ajax url.
@@ -94,7 +86,7 @@ class WC_FGC_Update_Variation_Cart {
 						'animation'      => 'slide',
 						'smoothHeight'   => false,
 						'directionNav'   => false,
-						'controlNav'     => false, // set to false
+						'controlNav'     => false,
 						'slideshow'      => false,
 						'animationSpeed' => 500,
 						'animationLoop'  => false, // Breaks photoswipe pagination if true.
@@ -103,14 +95,14 @@ class WC_FGC_Update_Variation_Cart {
 				'zoom_enabled'                => get_theme_support( 'wc-product-gallery-zoom' ),
 				'photoswipe_enabled'          => get_theme_support( 'wc-product-gallery-lightbox' ),
 				'flexslider_enabled'          => get_theme_support( 'wc-product-gallery-slider' ),
-				'server_error'                => __( '🤕 Sorry, an error occured, please try again later.', 'wc_free_gift_coupons'),
+				'server_error'                => __( 'Sorry, an error occured, please try again later.', 'wc_free_gift_coupons'),
 			);
 
 			// Enqueue needed css for it.
-			wp_enqueue_style( self::$name . '_style', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/css/frontend-variation-cart' . $min_ext . '.css', array(), self::$version, 'all' );
+			wp_enqueue_style( 'wc_fgc_style', plugin_dir_url( _WC_FGC_PLUGIN_NAME ) . 'assets/css/frontend-variation-cart' . $min_ext . '.css', array(), self::$version, 'all' );
 
-			// localize array here.
-			wp_localize_script( self::$name . '_js', 'wc_fgc_var_cart_params', $wc_fgc_trans_array );
+			// Localize array here.
+			wp_localize_script( 'wc_fgc_js', 'wc_fgc_var_cart_params', $wc_fgc_trans_array );
 		}
 
 	}
@@ -126,8 +118,8 @@ class WC_FGC_Update_Variation_Cart {
 	 * @return $array
 	 */
 	public static function change_variation_select_alert( $params, $handle ) {
-		if ('wc-add-to-cart-variation' === $handle ) {
-			$params['i18n_make_a_selection_text'] = __( '😐 Please select some product options.', 'wc_free_gift_coupons' );
+		if ( 'wc-add-to-cart-variation' === $handle ) {
+			$params['i18n_make_a_selection_text'] = __( ' Please select some product options.', 'wc_free_gift_coupons' );
 		}
 		return $params;
 	}
@@ -136,7 +128,7 @@ class WC_FGC_Update_Variation_Cart {
 	 * Add data on the product page.
 	 *
 	 * @name variation_update_data
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 * @param array        $cart_item  Cart item array.
 	 * @param array string $cart_item_key Cart item key.
 	 */
@@ -179,13 +171,13 @@ class WC_FGC_Update_Variation_Cart {
 	 * Ajax Handler for update cart.
 	 *
 	 * @name get_variation_html
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function get_variation_html() {
 		check_ajax_referer( 'wc-fgc-verify-nonce', 'nonce' );
 
 		global $product,$post;
-		// verify the ajax request.
+		// Verify the ajax request.
 
 		// get the product id from the ajax request.
 		$product_id = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : '';
@@ -199,7 +191,7 @@ class WC_FGC_Update_Variation_Cart {
 		if ( ! empty( $wc_cart ) ) {
 			foreach ( $wc_cart as $cart_item_key => $cart_item ) {
 
-				// check that product is exists in the cart.
+				// Check that product is exists in the cart.
 				if ( $cart_item_key_ajax == $cart_item_key ) {
 					$_cart_item_key = $cart_item_key;
 					foreach ( $cart_item['variation'] as $key => $value ) {
@@ -238,12 +230,12 @@ class WC_FGC_Update_Variation_Cart {
 			?>
 			 <div class="summary entry-summary">
 				<?php
-				// get single product name.
+				// Get single product name.
 				wc_get_template( 'single-product/title.php' );
-				// get single product price.
+				// Get single product price.
 				wc_get_template( 'single-product/price.php' );
 
-				// update for selected attributes.
+				// Update for selected attributes.
 				global $product;
 
 				// Enqueue variation scripts.
@@ -276,12 +268,11 @@ class WC_FGC_Update_Variation_Cart {
 	 * Handle ajax as per the updation in the cart.
 	 *
 	 * @name wc_fgc_update_variation_in_cart
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function update_variation_in_cart() {
-		// verify the ajax request.
+		// Verify the ajax request.
 		check_ajax_referer( 'wc-fgc-verify-nonce', 'nonce' );
-		global $woocommerce;
 
 		do_action( 'wc_fgc_before_updating_product_in_cart' );
 
@@ -344,7 +335,7 @@ class WC_FGC_Update_Variation_Cart {
 	 * Check is valid product in the cart.
 	 *
 	 * @name check_is_valid_product
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function check_is_valid_product() {
 		$cart = WC()->cart->get_cart();
